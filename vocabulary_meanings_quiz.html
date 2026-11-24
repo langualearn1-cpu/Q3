@@ -1,0 +1,2225 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الاختبار الإلكتروني التفاعلي: Vocabulary & Meanings Quiz</title>
+    <!-- تحميل مكتبة Tailwind CSS للتصميم العصري المتجاوب -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- تحميل الخطوط العربية والإنجليزية الواضحة -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Fredoka:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- أيقونات FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: #faf8f2;
+            background-image:
+                radial-gradient(at 10% 10%, rgba(251, 191, 36, 0.25) 0px, transparent 48%),
+                radial-gradient(at 90% 12%, rgba(132, 204, 22, 0.22) 0px, transparent 48%),
+                radial-gradient(at 85% 88%, rgba(56, 189, 248, 0.22) 0px, transparent 50%),
+                radial-gradient(at 15% 85%, rgba(249, 115, 22, 0.18) 0px, transparent 50%),
+                url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23b45309' fill-opacity='0.045'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            background-attachment: fixed;
+            overflow-x: hidden;
+        }
+        .en-text {
+            font-family: 'Fredoka', 'Inter', sans-serif;
+            direction: ltr;
+            unicode-bidi: isolate;
+        }
+        /* تأثيرات حركية ناعمة */
+        @keyframes pulse-ring {
+            0% { transform: scale(0.85); opacity: 0.85; }
+            50% { transform: scale(1.18); opacity: 0.25; }
+            100% { transform: scale(0.85); opacity: 0.85; }
+        }
+        .speaking-ring {
+            animation: pulse-ring 1.5s infinite ease-in-out;
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20% { transform: translateX(-6px); }
+            40% { transform: translateX(6px); }
+            60% { transform: translateX(-4px); }
+            80% { transform: translateX(4px); }
+        }
+        .shake {
+            animation: shake 0.45s ease-in-out;
+        }
+        @keyframes pop-in {
+            0% { transform: scale(0.92); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .animate-pop {
+            animation: pop-in 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+        @keyframes confetti-fall {
+            0% { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+        }
+        .confetti-piece {
+            position: fixed;
+            top: -15px;
+            z-index: 90;
+            pointer-events: none;
+            animation: confetti-fall linear forwards;
+        }
+        .audio-btn {
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+        }
+        .audio-btn:hover {
+            transform: scale(1.05);
+        }
+        .audio-btn:active {
+            transform: scale(0.95);
+        }
+        .clickable-phrase {
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .clickable-phrase:hover {
+            transform: translateY(-1px);
+        }
+        /* تظليل البطاقة أو السطر النشط أثناء قراءة المعلمة */
+        .active-reading-box {
+            background-color: #fef9c3 !important;
+            border-color: #f59e0b !important;
+            box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.38), 0 12px 24px -4px rgba(245, 158, 11, 0.24) !important;
+            transform: scale(1.015);
+            transition: all 0.25s ease;
+            position: relative;
+            z-index: 10;
+        }
+        .active-reading-text {
+            background: linear-gradient(120deg, #fde047 0%, #fef08a 100%);
+            padding: 2px 8px;
+            border-radius: 8px;
+            color: #78350f !important;
+            box-decoration-break: clone;
+            -webkit-box-decoration-break: clone;
+            transition: all 0.25s ease;
+        }
+        /* تصميم اللوح الخشبي المستوحى من ورقة العمل */
+        .wood-banner {
+            background: linear-gradient(180deg, #fde08d 0%, #f6c453 45%, #e5a93c 100%);
+            border: 3px solid #78350f;
+            box-shadow: 0 5px 0 #78350f, inset 0 2px 0 rgba(255, 255, 255, 0.65);
+        }
+        /* تأثير الدائرة حول الكلمة الشاذة في السؤال الثاني */
+        .odd-word-pill {
+            transition: all 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .odd-word-selected {
+            border: 3px solid #d97706 !important;
+            background: #fef3c7 !important;
+            color: #92400e !important;
+            box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.22);
+            transform: scale(1.06);
+        }
+        .odd-word-correct {
+            border: 3px solid #059669 !important;
+            background: #d1fae5 !important;
+            color: #065f46 !important;
+            box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.25);
+        }
+        .odd-word-wrong {
+            border: 3px solid #e11d48 !important;
+            background: #ffe4e6 !important;
+            color: #9f1239 !important;
+            box-shadow: 0 0 0 4px rgba(225, 29, 72, 0.22);
+        }
+        /* بلاطات الحروف التفاعلية في السؤال الأول */
+        .letter-tile {
+            transition: all 0.16s ease;
+            user-select: none;
+        }
+        .letter-tile:hover:not(:disabled) {
+            transform: translateY(-2px);
+        }
+        .letter-tile:active:not(:disabled) {
+            transform: scale(0.92);
+        }
+        .letter-tile-used {
+            opacity: 0.3;
+            transform: scale(0.9);
+        }
+        .glass-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 18px 40px -15px rgba(120, 53, 15, 0.14);
+        }
+        /* إطار عرض فائق الوضوح لبطاقات الصور */
+        .quiz-art-frame {
+            transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+        }
+        .quiz-card-enhanced:hover .quiz-art-frame svg {
+            transform: scale(1.06);
+        }
+        .quiz-art-frame svg {
+            transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        /* حركة شريط التقدم المخطط */
+        .progress-striped {
+            background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.22) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.22) 50%, rgba(255, 255, 255, 0.22) 75%, transparent 75%, transparent);
+            background-size: 1.25rem 1.25rem;
+        }
+    </style>
+</head>
+<body class="min-h-screen text-slate-800 pb-24">
+
+    <!-- ========================================== -->
+    <!-- الشريط العلوي الثابت: العنوان + نسبة الإنجاز + الصوت الهادئ -->
+    <!-- ========================================== -->
+    <header class="sticky top-0 z-50 bg-white/95 backdrop-blur-md shadow-sm border-b border-amber-200/80">
+        <div class="max-w-5xl mx-auto px-4 py-2.5 space-y-2">
+            <div class="flex flex-wrap items-center justify-between gap-2.5">
+                <!-- عنوان الاختبار -->
+                <div class="flex items-center gap-2.5">
+                    <button type="button" onclick="speakText('Interactive English Vocabulary Quiz. Unscramble the words, circle the odd one out, and choose the correct meaning.')" class="audio-btn bg-gradient-to-r from-amber-600 via-orange-600 to-lime-700 text-white px-4 sm:px-5 py-1.5 rounded-full font-bold text-sm sm:text-base shadow-md flex items-center gap-2" title="اضغط لسماع عنوان الاختبار">
+                        <i class="fa-solid fa-clipboard-check text-yellow-200"></i>
+                        <span class="en-text">Interactive Quiz</span>
+                    </button>
+                    <span class="hidden sm:inline-flex items-center gap-1.5 text-xs font-extrabold text-amber-900 bg-amber-100 border border-amber-300 px-3 py-1 rounded-full">
+                        <i class="fa-solid fa-chart-line text-amber-600"></i>
+                        الإنجاز: <span id="header-progress-pct" class="en-text text-sm text-orange-700">0%</span>
+                    </span>
+                </div>
+
+                <!-- مؤشر المعلمة الصوتية (نفس نظام الصوت التعليمي الهادئ) -->
+                <div id="teacher-status-box" class="flex flex-wrap items-center gap-2 bg-teal-50 border border-teal-200 px-3 py-1.5 rounded-full shadow-inner">
+                    <div class="relative flex items-center justify-center w-7 h-7 rounded-full bg-teal-600 text-white shrink-0">
+                        <span id="teacher-pulse" class="hidden absolute inset-0 rounded-full bg-teal-400 speaking-ring"></span>
+                        <i class="fa-solid fa-chalkboard-user relative z-10 text-xs"></i>
+                    </div>
+                    <div class="flex flex-wrap items-center gap-1.5 text-[11px] text-teal-700">
+                        <span class="hidden sm:inline">الصوت:</span>
+                        <select id="teacher-voice-select" onchange="changeTeacherVoice(this.value)" class="bg-white/90 border border-teal-300 rounded-lg px-2 py-0.5 text-[11px] font-bold text-teal-900 focus:outline-none cursor-pointer">
+                            <option value="calm-female" selected>معلمة هادئة (0.76x)</option>
+                            <option value="calm-male">معلم هادئ (0.76x)</option>
+                        </select>
+                        <button type="button" onclick="toggleSpeechSpeed()" id="speed-toggle-btn" class="bg-white/90 hover:bg-teal-100 border border-teal-300 rounded-lg px-2 py-0.5 text-[11px] font-bold text-teal-900 transition cursor-pointer" title="تبديل سرعة النطق">
+                            <i class="fa-solid fa-gauge-high text-teal-600"></i> <span id="speed-label">هادئ (0.76x)</span>
+                        </button>
+                    </div>
+                    <button type="button" onclick="stopAudio()" id="stop-audio-btn" class="hidden bg-rose-100 hover:bg-rose-200 text-rose-700 px-2.5 py-0.5 rounded-full text-xs font-bold transition">
+                        <i class="fa-solid fa-stop"></i> إيقاف
+                    </button>
+                </div>
+            </div>
+
+            <!-- شريط نسبة الإنجاز المباشر المدمج أعلى الصفحة -->
+            <div class="flex items-center gap-3">
+                <span class="text-[11px] sm:text-xs font-extrabold text-slate-600 shrink-0">
+                    نسبة الإنجاز (<span id="progress-count-text" class="en-text text-amber-700">0 / 16</span>)
+                </span>
+                <div class="flex-1 h-3 bg-slate-200/90 rounded-full overflow-hidden shadow-inner border border-slate-300/60">
+                    <div id="top-progress-bar" class="h-full w-0 bg-gradient-to-r from-amber-500 via-orange-500 to-emerald-500 progress-striped rounded-full transition-all duration-500 ease-out"></div>
+                </div>
+                <span id="top-progress-pct-label" class="en-text text-xs font-black text-emerald-700 w-10 text-left">0%</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- مؤشر القراءة الحي -->
+    <div id="liveReadingToast" class="fixed bottom-16 left-1/2 -translate-x-1/2 z-50 bg-slate-900/95 backdrop-blur-md text-white px-5 py-2.5 rounded-2xl shadow-2xl border border-slate-700 flex items-center gap-3 transition-all duration-300 opacity-0 pointer-events-none translate-y-8 max-w-[94vw]">
+        <div class="w-3 h-3 rounded-full bg-emerald-400 animate-ping flex-shrink-0"></div>
+        <div class="truncate" dir="ltr">
+            <span id="toastRateLabel" class="text-[11px] text-slate-400 block font-sans">Calm Educational Voice (0.76x):</span>
+            <span id="toastWord" class="en-text font-black text-amber-300 text-base sm:text-lg tracking-wide">...</span>
+        </div>
+    </div>
+
+    <!-- صندوق الإشعارات اللطيف -->
+    <div id="toast-message" class="fixed bottom-5 left-1/2 transform -translate-x-1/2 z-50 hidden bg-slate-800 text-white px-6 py-3 rounded-2xl shadow-xl font-bold text-sm flex items-center gap-2 transition-all">
+        <i class="fa-solid fa-sparkles text-yellow-400"></i>
+        <span id="toast-text">أحسنت!</span>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- المحتوى الرئيسي للاختبار الإلكتروني -->
+    <!-- ========================================== -->
+    <main class="max-w-5xl mx-auto px-4 pt-6 space-y-9">
+
+        <!-- بطاقة الترحيب وبيانات الطالب ومؤشرات الاختبار -->
+        <section class="relative rounded-3xl overflow-hidden bg-gradient-to-br from-amber-600 via-orange-600 to-emerald-700 text-white shadow-2xl border-2 border-amber-300/70 p-6 sm:p-7">
+            <!-- زخارف ضوئية ناعمة في الخلفية -->
+            <div class="pointer-events-none absolute -top-16 -left-16 w-56 h-56 rounded-full bg-yellow-300/20 blur-2xl"></div>
+            <div class="pointer-events-none absolute -bottom-20 -right-12 w-64 h-64 rounded-full bg-emerald-300/20 blur-2xl"></div>
+            <div class="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+                <div class="space-y-3">
+                    <div class="inline-flex items-center gap-2 bg-white/20 border border-white/30 text-amber-100 px-3.5 py-1 rounded-full text-xs font-extrabold backdrop-blur-sm">
+                        <i class="fa-solid fa-award text-yellow-300"></i>
+                        <span>اختبار إلكتروني تفاعلي • تصحيح فوري وتغذية راجعة</span>
+                    </div>
+                    <h1 class="text-2xl sm:text-3xl md:text-4xl font-black leading-tight">
+                        اختبار المفردات والمعاني التفاعلي
+                        <span class="en-text block text-amber-200 text-lg sm:text-xl font-bold mt-1">Vocabulary &amp; Meanings Interactive Quiz</span>
+                    </h1>
+                    <p class="text-amber-50/95 text-xs sm:text-sm font-semibold max-w-2xl">
+                        أجب عن الأسئلة الثلاثة التالية (16 فقرة)، وتابع شريط نسبة الإنجاز في الأعلى، ثم اضغط على «إنهاء الاختبار» للحصول على درجتك الكاملة والتغذية الراجعة لكل فقرة!
+                    </p>
+                    <!-- حقل اسم الطالب اختياري للشهادة -->
+                    <div class="flex flex-wrap items-center gap-2.5 pt-1">
+                        <div class="relative flex-1 min-w-[210px] max-w-xs">
+                            <i class="fa-solid fa-user-graduate absolute right-3.5 top-1/2 -translate-y-1/2 text-amber-700 text-sm"></i>
+                            <input id="student-name-input" type="text" placeholder="اكتب اسمك هنا (اختياري)..." class="w-full bg-white/95 text-slate-800 placeholder-slate-400 rounded-xl pr-9 pl-3 py-2 text-xs sm:text-sm font-bold border-2 border-amber-200 focus:outline-none focus:border-yellow-300 shadow-sm">
+                        </div>
+                        <a href="#sec-q1" class="bg-white/20 hover:bg-white/30 border border-white/30 px-3 py-2 rounded-xl text-xs font-bold transition">1. ترتيب الحروف</a>
+                        <a href="#sec-q2" class="bg-white/20 hover:bg-white/30 border border-white/30 px-3 py-2 rounded-xl text-xs font-bold transition">2. الكلمة المختلفة</a>
+                        <a href="#sec-q3" class="bg-yellow-300 hover:bg-yellow-200 text-slate-900 px-3 py-2 rounded-xl text-xs font-extrabold transition shadow">3. اختيار المعنى</a>
+                    </div>
+                </div>
+
+                <!-- بطاقة إحصائيات مصغّرة -->
+                <div class="grid grid-cols-3 lg:grid-cols-1 gap-2.5 shrink-0 lg:w-48">
+                    <div class="bg-white/15 backdrop-blur-sm border border-white/25 rounded-2xl p-3 text-center">
+                        <div class="text-[11px] font-bold text-amber-100">عدد الفقرات</div>
+                        <div class="en-text text-xl font-black text-white">16</div>
+                    </div>
+                    <div class="bg-white/15 backdrop-blur-sm border border-white/25 rounded-2xl p-3 text-center">
+                        <div class="text-[11px] font-bold text-amber-100">تم حلّها</div>
+                        <div id="hero-answered-count" class="en-text text-xl font-black text-yellow-300">0</div>
+                    </div>
+                    <div class="bg-white/15 backdrop-blur-sm border border-white/25 rounded-2xl p-3 text-center">
+                        <div class="text-[11px] font-bold text-amber-100">الدرجة الحالية</div>
+                        <div id="hero-score-badge" class="en-text text-xl font-black text-emerald-200">-- / 16</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- السؤال الأول: Unscramble the Words (8 كلمات) -->
+        <!-- ========================================== -->
+        <section id="sec-q1" class="glass-section rounded-3xl border-2 border-amber-300 overflow-hidden">
+            <!-- رأس السؤال بتصميم اللوح الخشبي واللوحة المرقّمة -->
+            <div dir="ltr" class="bg-gradient-to-r from-amber-50 via-orange-50/70 to-lime-50/70 border-b-2 border-amber-200 p-4 sm:px-6 flex flex-wrap items-center justify-between gap-4">
+                <div class="flex items-center gap-3 clickable-phrase" onclick="speakText('Question 1. Unscramble the words. Look at each picture and arrange the letters to make the correct word.')">
+                    <!-- أيقونة الحافظة المرقّمة 1 -->
+                    <div class="relative w-12 h-14 bg-white border-[3px] border-slate-800 rounded-xl shadow-md flex items-center justify-center shrink-0 -rotate-3">
+                        <div class="absolute -top-2.5 w-6 h-3 bg-amber-400 border-2 border-slate-800 rounded-md"></div>
+                        <span class="en-text text-2xl font-black text-slate-900">1</span>
+                    </div>
+                    <!-- اللافتة الخشبية -->
+                    <div class="wood-banner px-5 py-2 rounded-2xl">
+                        <div class="text-[10px] font-black uppercase tracking-widest text-amber-950/80">Question 1 • 8 Marks</div>
+                        <h2 class="en-text text-lg sm:text-2xl font-black text-slate-900 leading-tight">Unscramble the Words</h2>
+                    </div>
+                </div>
+                <div dir="rtl" class="flex flex-wrap items-center gap-2">
+                    <span class="bg-white border border-amber-300 text-amber-900 px-3 py-1 rounded-full text-xs font-extrabold">
+                        أنجزت: <span id="q1-progress-badge" class="en-text text-orange-600">0/8</span>
+                    </span>
+                    <button type="button" onclick="checkSection1()" class="audio-btn bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-1.5 rounded-full text-xs sm:text-sm font-bold flex items-center gap-1.5 shadow">
+                        <i class="fa-solid fa-check"></i>
+                        <span>تحقق من السؤال الأول</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="p-5 sm:p-6 space-y-5">
+                <p class="text-xs sm:text-sm font-bold text-slate-600 flex items-center gap-2 bg-amber-50/90 border border-amber-200 rounded-2xl px-4 py-2.5">
+                    <i class="fa-solid fa-lightbulb text-amber-500 text-base"></i>
+                    <span>انظر إلى الصورة ورتّب الحروف المبعثرة لتكوين الكلمة الصحيحة؛ يمكنك <strong>الكتابة مباشرة</strong> أو <strong>النقر على بلاطات الحروف</strong> بسهولة!</span>
+                </p>
+
+                <!-- شبكة الكلمات الثمانية (تم بناؤها ديناميكياً برسوم SVG فائقة الدقة) -->
+                <div id="q1-grid" dir="ltr" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5"></div>
+
+                <!-- تغذية راجعة خاصة بالسؤال الأول -->
+                <div id="q1-section-feedback" class="hidden text-center font-bold text-sm sm:text-base py-3 px-5 rounded-2xl"></div>
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- السؤال الثاني: Circle the odd one out. (4 فقرات) -->
+        <!-- ========================================== -->
+        <section id="sec-q2" class="glass-section rounded-3xl border-2 border-orange-300 overflow-hidden">
+            <div dir="ltr" class="bg-gradient-to-r from-orange-50 via-amber-50/80 to-yellow-50/70 border-b-2 border-orange-200 p-4 sm:px-6 flex flex-wrap items-center justify-between gap-4">
+                <div class="flex items-center gap-3 clickable-phrase" onclick="speakText('Question 2. Circle the odd one out. Choose the word that does not belong in each row.')">
+                    <div class="relative w-12 h-14 bg-white border-[3px] border-slate-800 rounded-xl shadow-md flex items-center justify-center shrink-0 rotate-2">
+                        <div class="absolute -top-2.5 w-6 h-3 bg-orange-400 border-2 border-slate-800 rounded-md"></div>
+                        <span class="en-text text-2xl font-black text-slate-900">2</span>
+                    </div>
+                    <div class="wood-banner px-5 py-2 rounded-2xl">
+                        <div class="text-[10px] font-black uppercase tracking-widest text-amber-950/80">Question 2 • 4 Marks</div>
+                        <h2 class="en-text text-lg sm:text-2xl font-black text-slate-900 leading-tight">Circle the odd one out.</h2>
+                    </div>
+                </div>
+                <div dir="rtl" class="flex flex-wrap items-center gap-2">
+                    <span class="bg-white border border-orange-300 text-orange-900 px-3 py-1 rounded-full text-xs font-extrabold">
+                        أنجزت: <span id="q2-progress-badge" class="en-text text-orange-600">0/4</span>
+                    </span>
+                    <button type="button" onclick="checkSection2()" class="audio-btn bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-1.5 rounded-full text-xs sm:text-sm font-bold flex items-center gap-1.5 shadow">
+                        <i class="fa-solid fa-check"></i>
+                        <span>تحقق من السؤال الثاني</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="p-5 sm:p-6 space-y-4">
+                <p class="text-xs sm:text-sm font-bold text-slate-600 flex items-center gap-2 bg-orange-50/90 border border-orange-200 rounded-2xl px-4 py-2.5">
+                    <i class="fa-regular fa-circle-dot text-orange-500 text-base"></i>
+                    <span>اقرأ الكلمات الأربع في كل سطر، ثم <strong>اضغط على الكلمة المختلفة (الشاذة)</strong> لوضع دائرة حولها!</span>
+                </p>
+
+                <!-- حاوية صفوف السؤال الثاني -->
+                <div id="q2-container" dir="ltr" class="space-y-3.5"></div>
+
+                <!-- تغذية راجعة خاصة بالسؤال الثاني -->
+                <div id="q2-section-feedback" class="hidden text-center font-bold text-sm sm:text-base py-3 px-5 rounded-2xl"></div>
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- السؤال الثالث: Choose the correct meaning. (4 فقرات) -->
+        <!-- ========================================== -->
+        <section id="sec-q3" class="glass-section rounded-3xl border-2 border-lime-400/80 overflow-hidden">
+            <div dir="ltr" class="bg-gradient-to-r from-lime-50 via-emerald-50/70 to-amber-50/60 border-b-2 border-lime-200 p-4 sm:px-6 flex flex-wrap items-center justify-between gap-4">
+                <div class="flex items-center gap-3 clickable-phrase" onclick="speakText('Question 3. Choose the correct meaning for each word.')">
+                    <div class="relative w-12 h-14 bg-white border-[3px] border-slate-800 rounded-xl shadow-md flex items-center justify-center shrink-0 -rotate-2">
+                        <div class="absolute -top-2.5 w-6 h-3 bg-lime-500 border-2 border-slate-800 rounded-md"></div>
+                        <span class="en-text text-2xl font-black text-slate-900">3</span>
+                    </div>
+                    <div class="wood-banner px-5 py-2 rounded-2xl">
+                        <div class="text-[10px] font-black uppercase tracking-widest text-amber-950/80">Question 3 • 4 Marks</div>
+                        <h2 class="en-text text-lg sm:text-2xl font-black text-slate-900 leading-tight">Choose the correct meaning.</h2>
+                    </div>
+                </div>
+                <div dir="rtl" class="flex flex-wrap items-center gap-2">
+                    <span class="bg-white border border-lime-300 text-lime-900 px-3 py-1 rounded-full text-xs font-extrabold">
+                        أنجزت: <span id="q3-progress-badge" class="en-text text-emerald-700">0/4</span>
+                    </span>
+                    <button type="button" onclick="checkSection3()" class="audio-btn bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-1.5 rounded-full text-xs sm:text-sm font-bold flex items-center gap-1.5 shadow">
+                        <i class="fa-solid fa-check"></i>
+                        <span>تحقق من السؤال الثالث</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="p-5 sm:p-6 space-y-4">
+                <p class="text-xs sm:text-sm font-bold text-slate-600 flex items-center gap-2 bg-lime-50/90 border border-lime-200 rounded-2xl px-4 py-2.5">
+                    <i class="fa-solid fa-book-open text-lime-600 text-base"></i>
+                    <span>اختر المعنى الصحيح لكل كلمة من الخيارات (<span class="en-text font-black">a / b / c / d</span>) لتكمل الجملة تلقائياً.</span>
+                </p>
+
+                <!-- حاوية فقرات السؤال الثالث -->
+                <div id="q3-container" dir="ltr" class="space-y-4"></div>
+
+                <!-- تغذية راجعة خاصة بالسؤال الثالث -->
+                <div id="q3-section-feedback" class="hidden text-center font-bold text-sm sm:text-base py-3 px-5 rounded-2xl"></div>
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- لوحة إنهاء الاختبار والتصحيح الشامل -->
+        <!-- ========================================== -->
+        <section class="bg-white rounded-3xl border-2 border-amber-300 shadow-lg p-5 sm:p-6 text-center space-y-4">
+            <h3 class="text-lg sm:text-xl font-black text-slate-800">هل أنهيت جميع الأسئلة؟ احصل على نتيجتك والتغذية الراجعة الآن!</h3>
+            <div class="flex flex-wrap items-center justify-center gap-3">
+                <button type="button" onclick="submitFullQuiz()" class="audio-btn bg-gradient-to-r from-emerald-600 via-teal-600 to-sky-600 hover:from-emerald-700 hover:to-sky-700 text-white font-black px-7 py-3 rounded-2xl shadow-lg flex items-center gap-2 text-sm sm:text-base">
+                    <i class="fa-solid fa-flag-checkered"></i>
+                    <span>إنهاء الاختبار وعرض التغذية الراجعة</span>
+                </button>
+                <button type="button" onclick="showAllModelAnswers()" class="audio-btn bg-amber-100 hover:bg-amber-200 text-amber-900 border border-amber-300 font-extrabold px-5 py-3 rounded-2xl flex items-center gap-2 text-xs sm:text-sm">
+                    <i class="fa-solid fa-eye"></i>
+                    <span>عرض الإجابات النموذجية</span>
+                </button>
+                <button type="button" onclick="resetEntireQuiz()" class="audio-btn bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-300 font-bold px-5 py-3 rounded-2xl flex items-center gap-2 text-xs sm:text-sm">
+                    <i class="fa-solid fa-rotate-right"></i>
+                    <span>إعادة الاختبار</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- بطاقة التقرير النهائي والتغذية الراجعة التفصيلية -->
+        <!-- ========================================== -->
+        <section id="final-report-card" class="hidden animate-pop bg-white rounded-3xl border-2 border-emerald-400 shadow-2xl overflow-hidden">
+            <div class="bg-gradient-to-r from-emerald-600 via-teal-600 to-sky-600 text-white p-5 sm:px-7 flex flex-wrap items-center justify-between gap-3">
+                <div class="flex items-center gap-3">
+                    <span class="w-11 h-11 rounded-2xl bg-white/20 border border-white/30 flex items-center justify-center text-2xl">
+                        <i class="fa-solid fa-trophy text-yellow-300"></i>
+                    </span>
+                    <div>
+                        <h3 class="text-xl sm:text-2xl font-black">التقرير النهائي للاختبار الإلكتروني</h3>
+                        <p class="en-text text-xs text-emerald-100 font-semibold">Final Score, Achievement &amp; Detailed Feedback</p>
+                    </div>
+                </div>
+                <button type="button" onclick="resetEntireQuiz()" class="audio-btn bg-white/20 hover:bg-white/30 border border-white/35 text-white px-4 py-1.5 rounded-full text-xs font-extrabold">
+                    <i class="fa-solid fa-rotate"></i> محاولة جديدة
+                </button>
+            </div>
+
+            <div class="p-6 sm:p-7 space-y-6">
+                <div class="flex flex-col md:flex-row items-center gap-6">
+                    <!-- دائرة النسبة المئوية للدرجة -->
+                    <div class="relative w-36 h-36 shrink-0 flex items-center justify-center">
+                        <svg viewBox="0 0 120 120" class="w-full h-full -rotate-90">
+                            <circle cx="60" cy="60" r="50" fill="none" stroke="#e2e8f0" stroke-width="11"/>
+                            <circle id="score-ring-circle" cx="60" cy="60" r="50" fill="none" stroke="#10b981" stroke-width="11" stroke-linecap="round" stroke-dasharray="314" stroke-dashoffset="314" style="transition: stroke-dashoffset 0.9s ease-out;"/>
+                        </svg>
+                        <div class="absolute inset-0 flex flex-col items-center justify-center">
+                            <span id="final-pct-text" class="en-text text-3xl font-black text-slate-800">0%</span>
+                            <span class="text-[11px] font-bold text-slate-500">الدرجة</span>
+                        </div>
+                    </div>
+
+                    <!-- ملخص التقدير والإنجاز -->
+                    <div class="flex-1 space-y-3 text-center md:text-right">
+                        <span id="final-rating-badge" class="inline-block px-3.5 py-1 rounded-full text-xs font-black bg-emerald-100 text-emerald-800 border border-emerald-300">تقدير: ممتاز</span>
+                        <h4 id="final-student-greeting" class="text-xl sm:text-2xl font-black text-slate-800">أحسنت يا بطل!</h4>
+                        <p id="final-summary-msg" class="text-sm font-bold text-slate-600 leading-relaxed"></p>
+
+                        <!-- تفصيل الدرجات حسب الأسئلة ونسبة الإنجاز -->
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-2">
+                            <div class="bg-amber-50 border border-amber-200 rounded-2xl p-2.5 text-center">
+                                <div class="text-[11px] font-bold text-amber-800">السؤال 1</div>
+                                <div id="report-q1-score" class="en-text text-lg font-black text-amber-900">0/8</div>
+                            </div>
+                            <div class="bg-orange-50 border border-orange-200 rounded-2xl p-2.5 text-center">
+                                <div class="text-[11px] font-bold text-orange-800">السؤال 2</div>
+                                <div id="report-q2-score" class="en-text text-lg font-black text-orange-900">0/4</div>
+                            </div>
+                            <div class="bg-lime-50 border border-lime-200 rounded-2xl p-2.5 text-center">
+                                <div class="text-[11px] font-bold text-lime-800">السؤال 3</div>
+                                <div id="report-q3-score" class="en-text text-lg font-black text-lime-900">0/4</div>
+                            </div>
+                            <div class="bg-sky-50 border border-sky-200 rounded-2xl p-2.5 text-center">
+                                <div class="text-[11px] font-bold text-sky-800">نسبة الإنجاز</div>
+                                <div id="report-completion-pct" class="en-text text-lg font-black text-sky-900">0%</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- قائمة التغذية الراجعة التفصيلية لكل فقرة -->
+                <div class="border-t border-slate-200 pt-5 space-y-3">
+                    <h5 class="text-sm sm:text-base font-black text-slate-800 flex items-center gap-2">
+                        <i class="fa-solid fa-list-check text-emerald-600"></i>
+                        <span>التغذية الراجعة التفصيلية لجميع الفقرات (16 فقرة):</span>
+                    </h5>
+                    <div id="detailed-feedback-list" class="grid grid-cols-1 md:grid-cols-2 gap-2.5 text-xs font-bold"></div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- تذييل تعليمي -->
+    <footer class="max-w-5xl mx-auto px-4 pt-10 pb-4 text-center">
+        <div class="bg-white/85 border border-slate-200/80 rounded-2xl py-3 px-6 inline-flex flex-wrap items-center justify-center gap-3 shadow-sm text-xs sm:text-sm text-slate-600">
+            <span class="en-text font-extrabold text-teal-700 tracking-wide">LANGUA LEARN</span>
+            <span class="text-slate-300">•</span>
+            <span class="font-bold text-slate-700">جميع الحقوق محفوظة للأستاذ: ماجد سعد السويهري</span>
+        </div>
+    </footer>
+
+    <!-- ========================================== -->
+    <!-- البرمجة التفاعلية ونظام الصوت التعليمي الهادئ -->
+    <!-- ========================================== -->
+    <script>
+        // ==========================================
+        // 1. بيانات الاختبار الإلكتروني الكاملة
+        // ==========================================
+
+        /**
+         * يبني رسم SVG فائق الدقة والنعومة لبطاقة (furry) مطابقاً للصورة المرفقة:
+         * كتلة الفراء الكثيف بالأعلى والذيل الفروي المخطط المنحني بالأسفل على خلفية بيضاء نقية
+         */
+        function buildFurryArtSvg() {
+            let seed = 4217;
+            const rand = () => {
+                seed = (seed * 16807) % 2147483647;
+                return (seed - 1) / 2147483646;
+            };
+
+            const puffCx = 114;
+            const puffCy = 80;
+            const puffRx = 78;
+            const puffRy = 49;
+
+            const softColors = ['#b8581a', '#a34812', '#cc6e24', '#d98a38', '#8c3d11'];
+            const crispColors = ['#9c3b0a', '#b84b10', '#cc621b', '#d9822e', '#7d310b'];
+
+            // 1) خصلات الفراء الناعمة والكثيفة حول الكتلة العلوية
+            let puffUnderHairs = '';
+            for (let i = 0; i < 130; i++) {
+                const a = (i / 130) * Math.PI * 2 + (rand() - 0.5) * 0.06;
+                const cosA = Math.cos(a);
+                const sinA = Math.sin(a);
+                const rStart = 0.68 + rand() * 0.24;
+                const rEnd = 1.03 + rand() * 0.16;
+                const x1 = puffCx + cosA * puffRx * rStart;
+                const y1 = puffCy + sinA * puffRy * rStart;
+                const x2 = puffCx + cosA * puffRx * rEnd + (rand() - 0.5) * 5;
+                const y2 = puffCy + sinA * puffRy * rEnd + (sinA > 0 ? 3 : -1) + (rand() - 0.5) * 4;
+                const cx = (x1 + x2) * 0.5 - sinA * (rand() * 5 - 2.5);
+                const cy = (y1 + y2) * 0.5 + cosA * (rand() * 5 - 2.5);
+                const col = softColors[Math.floor(rand() * softColors.length)];
+                const sw = (1.15 + rand() * 0.85).toFixed(2);
+                puffUnderHairs += `<path d="M${x1.toFixed(1)},${y1.toFixed(1)} Q${cx.toFixed(1)},${cy.toFixed(1)} ${x2.toFixed(1)},${y2.toFixed(1)}" stroke="${col}" stroke-width="${sw}" opacity="${(0.45 + rand() * 0.3).toFixed(2)}"/>`;
+            }
+
+            let puffCrispHairs = '';
+            for (let i = 0; i < 210; i++) {
+                const a = (i / 210) * Math.PI * 2 + (rand() - 0.5) * 0.05;
+                const cosA = Math.cos(a);
+                const sinA = Math.sin(a);
+                const rStart = 0.62 + rand() * 0.3;
+                const rEnd = 1.0 + rand() * 0.18;
+                const x1 = puffCx + cosA * puffRx * rStart;
+                const y1 = puffCy + sinA * puffRy * rStart;
+                // توجيه خصلات الأعلى بانحناءة لطيفة للجانبين والأسفل للانسياب الطبيعي
+                const sway = sinA < -0.35 ? (cosA >= 0 ? 7 : -7) : 0;
+                const x2 = puffCx + cosA * puffRx * rEnd + sway + (rand() - 0.5) * 4;
+                const y2 = puffCy + sinA * puffRy * rEnd + (sinA > 0.2 ? 4 : 0) + (rand() - 0.5) * 4;
+                const cx = (x1 + x2) * 0.5 + (rand() - 0.5) * 6;
+                const cy = (y1 + y2) * 0.5 + (rand() - 0.5) * 5;
+                const col = crispColors[Math.floor(rand() * crispColors.length)];
+                const sw = (0.7 + rand() * 0.65).toFixed(2);
+                puffCrispHairs += `<path d="M${x1.toFixed(1)},${y1.toFixed(1)} Q${cx.toFixed(1)},${cy.toFixed(1)} ${x2.toFixed(1)},${y2.toFixed(1)}" stroke="${col}" stroke-width="${sw}" opacity="${(0.68 + rand() * 0.28).toFixed(2)}"/>`;
+            }
+
+            // خصلات فراء متموجة داخل القبة العلوية لإعطاء عمق ناعم مطابق للرسم الزيتي
+            let puffInnerStrokes = '';
+            for (let i = 0; i < 42; i++) {
+                const t = i / 41;
+                const x1 = puffCx - 60 + t * 120 + (rand() - 0.5) * 6;
+                const y1 = puffCy - 36 + Math.pow(t - 0.5, 2) * 48 + (rand() - 0.5) * 6;
+                const x2 = x1 + (t - 0.5) * 16 + (rand() - 0.5) * 6;
+                const y2 = y1 + 18 + rand() * 14;
+                const col = i % 3 === 0 ? '#7c330d' : '#b55417';
+                puffInnerStrokes += `<path d="M${x1.toFixed(1)},${y1.toFixed(1)} Q${((x1 + x2) / 2 + 2).toFixed(1)},${((y1 + y2) / 2).toFixed(1)} ${x2.toFixed(1)},${y2.toFixed(1)}" stroke="${col}" stroke-width="${(0.9 + rand() * 0.7).toFixed(2)}" opacity="${(0.28 + rand() * 0.24).toFixed(2)}"/>`;
+            }
+
+            // 2) منحنى الذيل الفروي المخطط المنحني من أسفل اليمين نحو أسفل اليسار
+            const evalCubic = (p0, p1, p2, p3, u) => {
+                const m = 1 - u;
+                return {
+                    x: m * m * m * p0.x + 3 * m * m * u * p1.x + 3 * m * u * u * p2.x + u * u * u * p3.x,
+                    y: m * m * m * p0.y + 3 * m * m * u * p1.y + 3 * m * u * u * p2.y + u * u * u * p3.y
+                };
+            };
+            const evalCubicTan = (p0, p1, p2, p3, u) => {
+                const m = 1 - u;
+                const dx = 3 * m * m * (p1.x - p0.x) + 6 * m * u * (p2.x - p1.x) + 3 * u * u * (p3.x - p2.x);
+                const dy = 3 * m * m * (p1.y - p0.y) + 6 * m * u * (p2.y - p1.y) + 3 * u * u * (p3.y - p2.y);
+                const len = Math.hypot(dx, dy) || 1;
+                return { dx: dx / len, dy: dy / len };
+            };
+
+            const s1 = [{ x: 184, y: 116 }, { x: 228, y: 126 }, { x: 228, y: 178 }, { x: 168, y: 192 }];
+            const s2 = [{ x: 168, y: 192 }, { x: 126, y: 202 }, { x: 82, y: 164 }, { x: 44, y: 234 }];
+
+            const tailPoint = (t) => t <= 0.5
+                ? evalCubic(s1[0], s1[1], s1[2], s1[3], t * 2)
+                : evalCubic(s2[0], s2[1], s2[2], s2[3], (t - 0.5) * 2);
+
+            const tailTan = (t) => t <= 0.5
+                ? evalCubicTan(s1[0], s1[1], s1[2], s1[3], t * 2)
+                : evalCubicTan(s2[0], s2[1], s2[2], s2[3], (t - 0.5) * 2);
+
+            const tailHalfWidth = (t) => {
+                const belly = 26 * Math.sin(Math.PI * Math.pow(t, 0.68)) * (1 - 0.22 * t);
+                const base = 11 * Math.pow(1 - t, 2);
+                return Math.max(1.5, belly + base);
+            };
+
+            // بناء جسم الذيل المضلع الناعم للظل والتعبئة
+            const steps = 42;
+            const outerPts = [];
+            const innerPts = [];
+            for (let i = 0; i <= steps; i++) {
+                const t = i / steps;
+                const p = tailPoint(t);
+                const tan = tailTan(t);
+                const nx = -tan.dy;
+                const ny = tan.dx;
+                const w = tailHalfWidth(t);
+                outerPts.push(`${(p.x + nx * w).toFixed(1)},${(p.y + ny * w).toFixed(1)}`);
+                innerPts.unshift(`${(p.x - nx * w).toFixed(1)},${(p.y - ny * w).toFixed(1)}`);
+            }
+            const tailPathD = `M ${outerPts.join(' L ')} L ${innerPts.join(' L ')} Z`;
+
+            // بناء خطوط التخطيط البنية الناعمة الثلاثة على الذيل
+            const stripeTs = [0.24, 0.49, 0.72];
+            let tailStripes = '';
+            stripeTs.forEach((st, idx) => {
+                const p = tailPoint(st);
+                const tan = tailTan(st);
+                const nx = -tan.dy;
+                const ny = tan.dx;
+                const w = tailHalfWidth(st) * 1.15;
+                const x1 = p.x - nx * w;
+                const y1 = p.y - ny * w;
+                const x2 = p.x + nx * w;
+                const y2 = p.y + ny * w;
+                const cx = p.x + tan.dx * 7;
+                const cy = p.y + tan.dy * 7;
+                const sw = idx === 1 ? 15 : 12;
+                tailStripes += `<path d="M${x1.toFixed(1)},${y1.toFixed(1)} Q${cx.toFixed(1)},${cy.toFixed(1)} ${x2.toFixed(1)},${y2.toFixed(1)}" fill="none" stroke="#9e5018" stroke-width="${sw}" stroke-linecap="round" opacity="${idx === 1 ? '0.68' : '0.52'}"/>`;
+            });
+
+            // بناء خصلات الفراء المنسابة على حافتي الذيل وداخله
+            let tailHairs = '';
+            for (let i = 0; i < 160; i++) {
+                const t = 0.03 + (i / 160) * 0.95;
+                const p = tailPoint(t);
+                const tan = tailTan(t);
+                const nx = -tan.dy;
+                const ny = tan.dx;
+                const w = tailHalfWidth(t);
+                const side = i % 2 === 0 ? 1 : -1;
+                const offsetFrac = (0.35 + rand() * 0.68) * side;
+                const x1 = p.x + nx * w * offsetFrac;
+                const y1 = p.y + ny * w * offsetFrac;
+                const hairLen = (11 + rand() * 14) * (1 - 0.3 * t);
+                const flare = side * (0.32 + rand() * 0.45);
+                const x2 = x1 + (tan.dx * 0.85 + nx * flare) * hairLen;
+                const y2 = y1 + (tan.dy * 0.85 + ny * flare) * hairLen;
+                const cx = (x1 + x2) * 0.5 + nx * side * (2 + rand() * 3);
+                const cy = (y1 + y2) * 0.5 + ny * side * (2 + rand() * 3);
+                const col = crispColors[Math.floor(rand() * crispColors.length)];
+                const sw = (0.65 + rand() * 0.65).toFixed(2);
+                tailHairs += `<path d="M${x1.toFixed(1)},${y1.toFixed(1)} Q${cx.toFixed(1)},${cy.toFixed(1)} ${x2.toFixed(1)},${y2.toFixed(1)}" stroke="${col}" stroke-width="${sw}" opacity="${(0.62 + rand() * 0.32).toFixed(2)}"/>`;
+            }
+
+            // شعيرات دقيقة متطايرة عند طرف الذيل المدبب بالأسفل يسار
+            const tip = tailPoint(0.96);
+            for (let i = 0; i < 10; i++) {
+                const dx = -8 - rand() * 12;
+                const dy = 8 + rand() * 14;
+                const x1 = tip.x + (rand() - 0.5) * 8;
+                const y1 = tip.y + (rand() - 0.5) * 6;
+                tailHairs += `<path d="M${x1.toFixed(1)},${y1.toFixed(1)} Q${(x1 + dx * 0.5).toFixed(1)},${(y1 + dy * 0.45).toFixed(1)} ${(x1 + dx).toFixed(1)},${(y1 + dy).toFixed(1)}" stroke="#b34b12" stroke-width="0.9" opacity="0.85"/>`;
+            }
+
+            return `
+                <svg viewBox="0 0 260 250" preserveAspectRatio="xMidYMid meet" class="w-full h-full">
+                    <defs>
+                        <filter id="furSoftBlur5" x="-25%" y="-25%" width="150%" height="150%">
+                            <feGaussianBlur stdDeviation="4.5"/>
+                        </filter>
+                        <filter id="furMedBlur5" x="-20%" y="-20%" width="140%" height="140%">
+                            <feGaussianBlur stdDeviation="2.4"/>
+                        </filter>
+                        <filter id="furLightBlur5" x="-15%" y="-15%" width="130%" height="130%">
+                            <feGaussianBlur stdDeviation="0.9"/>
+                        </filter>
+                        <radialGradient id="furPuffGrad5" cx="44%" cy="56%" r="62%">
+                            <stop offset="0%" stop-color="#c98532"/>
+                            <stop offset="52%" stop-color="#bd7828"/>
+                            <stop offset="84%" stop-color="#a85e1c"/>
+                            <stop offset="100%" stop-color="#d49e68"/>
+                        </radialGradient>
+                        <radialGradient id="furDomeLight5" cx="50%" cy="22%" r="65%">
+                            <stop offset="0%" stop-color="#f5e1c8" stop-opacity="0.92"/>
+                            <stop offset="55%" stop-color="#dfaf74" stop-opacity="0.45"/>
+                            <stop offset="100%" stop-color="#bd7828" stop-opacity="0"/>
+                        </radialGradient>
+                        <linearGradient id="furTailGrad5" x1="1" y1="0" x2="0" y2="1">
+                            <stop offset="0%" stop-color="#e3b671"/>
+                            <stop offset="45%" stop-color="#d49844"/>
+                            <stop offset="80%" stop-color="#e8c382"/>
+                            <stop offset="100%" stop-color="#d9a55b"/>
+                        </linearGradient>
+                        <clipPath id="furTailClip5">
+                            <path d="${tailPathD}"/>
+                        </clipPath>
+                    </defs>
+
+                    <!-- خلفية بيضاء نقية 100% -->
+                    <rect width="260" height="250" fill="#ffffff"/>
+
+                    <!-- الذيل الفروي المخطط المنحني -->
+                    <g>
+                        <path d="${tailPathD}" fill="#e6c493" opacity="0.55" filter="url(#furSoftBlur5)"/>
+                        <path d="${tailPathD}" fill="url(#furTailGrad5)" filter="url(#furMedBlur5)"/>
+                        <g clip-path="url(#furTailClip5)" filter="url(#furSoftBlur5)">
+                            ${tailStripes}
+                            <path d="M188,124 Q202,162 150,188 Q104,192 64,212" fill="none" stroke="#fdf0d5" stroke-width="9" opacity="0.45"/>
+                        </g>
+                        <g fill="none" stroke-linecap="round">
+                            ${tailHairs}
+                        </g>
+                    </g>
+
+                    <!-- كتلة الفراء البيضاوية الكثيفة بالأعلى -->
+                    <g>
+                        <!-- هالة الفراء الناعمة -->
+                        <ellipse cx="${puffCx}" cy="${puffCy}" rx="86" ry="54" fill="#e5c6a3" opacity="0.6" filter="url(#furSoftBlur5)"/>
+                        <!-- الجسم الأساسي الدافئ -->
+                        <ellipse cx="${puffCx}" cy="${puffCy + 2}" rx="76" ry="45" fill="url(#furPuffGrad5)" filter="url(#furSoftBlur5)"/>
+                        <!-- إضاءة ناعمة أعلى القبة وأسفل الحافة -->
+                        <ellipse cx="${puffCx - 4}" cy="${puffCy - 28}" rx="56" ry="22" fill="url(#furDomeLight5)" filter="url(#furMedBlur5)"/>
+                        <ellipse cx="${puffCx - 6}" cy="${puffCy + 38}" rx="58" ry="12" fill="#f3dfc6" opacity="0.55" filter="url(#furSoftBlur5)"/>
+                        <!-- تظليل دافئ ثلاثي الأبعاد -->
+                        <path d="M52,58 Q114,34 176,66 Q186,98 158,116 Q172,88 152,68 Q112,50 52,58 Z" fill="#8f4514" opacity="0.34" filter="url(#furSoftBlur5)"/>
+                        <!-- خصلات الفراء الداخلية والخارجية -->
+                        <g fill="none" stroke-linecap="round" filter="url(#furLightBlur5)">
+                            ${puffUnderHairs}
+                        </g>
+                        <g fill="none" stroke-linecap="round">
+                            ${puffInnerStrokes}
+                            ${puffCrispHairs}
+                        </g>
+                    </g>
+                </svg>
+            `;
+        }
+
+        // السؤال الأول: Unscramble the Words (8 كلمات + رسوم SVG عالية الدقة ومطابقة للصور المرفقة)
+        const q1Data = [
+            {
+                id: 1,
+                scrambled: 'telbee',
+                answer: 'beetle',
+                arMeaning: 'خنفساء',
+                hintEn: 'A small insect with a hard shiny shell and six legs.',
+                badgeColor: 'bg-orange-700',
+                svg: `
+                    <svg viewBox="0 0 240 220" preserveAspectRatio="xMidYMid meet" class="w-full h-full">
+                        <defs>
+                            <linearGradient id="beetleWing1" x1="0" y1="0" x2="1" y2="1">
+                                <stop offset="0%" stop-color="#fde68a"/>
+                                <stop offset="48%" stop-color="#ea580c"/>
+                                <stop offset="100%" stop-color="#9a3412"/>
+                            </linearGradient>
+                            <linearGradient id="beetleShell1" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0%" stop-color="#475569"/>
+                                <stop offset="100%" stop-color="#0f172a"/>
+                            </linearGradient>
+                        </defs>
+                        <rect width="240" height="220" fill="#ffffff"/>
+                        <!-- الأرجل الأمامية والوسطى والخلفية المتماثلة -->
+                        <g fill="none" stroke="#0f172a" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+                            <!-- يسار -->
+                            <path d="M90,82 L66,68 L56,42 L58,18"/>
+                            <path d="M84,112 L58,128 L42,152 L28,166"/>
+                            <path d="M86,144 L66,166 L56,192 L52,208"/>
+                            <!-- يمين -->
+                            <path d="M150,82 L174,68 L184,42 L182,18"/>
+                            <path d="M156,112 L182,128 L198,152 L212,166"/>
+                            <path d="M154,144 L174,166 L184,192 L188,208"/>
+                        </g>
+                        <!-- مخالب وأشواك الأرجل -->
+                        <g stroke="#b45309" stroke-width="2.5" stroke-linecap="round">
+                            <line x1="58" y1="18" x2="64" y2="12"/>
+                            <line x1="182" y1="18" x2="176" y2="12"/>
+                            <line x1="28" y1="166" x2="24" y2="173"/>
+                            <line x1="212" y1="166" x2="216" y2="173"/>
+                            <line x1="52" y1="208" x2="56" y2="214"/>
+                            <line x1="188" y1="208" x2="184" y2="214"/>
+                        </g>
+                        <!-- قرون الاستشعار والفكان العلويان (Pincers) -->
+                        <path d="M108,52 C92,42 86,24 94,12 C96,24 102,28 112,38" fill="#64748b" stroke="#0f172a" stroke-width="3" stroke-linejoin="round"/>
+                        <path d="M132,52 C148,42 154,24 146,12 C144,24 138,28 128,38" fill="#64748b" stroke="#0f172a" stroke-width="3" stroke-linejoin="round"/>
+                        <path d="M108,46 Q104,36 108,28" fill="none" stroke="#dc2626" stroke-width="3" stroke-linecap="round"/>
+                        <path d="M132,46 Q136,36 132,28" fill="none" stroke="#dc2626" stroke-width="3" stroke-linecap="round"/>
+                        <!-- الرأس والعيون الحمراء -->
+                        <ellipse cx="120" cy="60" rx="22" ry="15" fill="url(#beetleShell1)" stroke="#0f172a" stroke-width="3"/>
+                        <circle cx="99" cy="62" r="6" fill="#dc2626" stroke="#0f172a" stroke-width="2"/>
+                        <circle cx="98" cy="60" r="2" fill="#ffffff"/>
+                        <circle cx="141" cy="62" r="6" fill="#dc2626" stroke="#0f172a" stroke-width="2"/>
+                        <circle cx="140" cy="60" r="2" fill="#ffffff"/>
+                        <!-- الصدر الأسود اللامع -->
+                        <path d="M90,94 C90,74 104,68 120,68 C136,68 150,74 150,94 C150,104 138,108 120,108 C102,108 90,104 90,94 Z" fill="url(#beetleShell1)" stroke="#0f172a" stroke-width="3"/>
+                        <ellipse cx="111" cy="84" rx="10" ry="12" transform="rotate(15 111 84)" fill="#94a3b8" opacity="0.5"/>
+                        <ellipse cx="113" cy="77" rx="7" ry="4" transform="rotate(15 113 77)" fill="#ffffff" opacity="0.85"/>
+                        <!-- الجناحان الصلبان (Elytra) -->
+                        <path d="M84,116 C84,104 96,102 120,114 C144,102 156,104 156,116 C158,158 144,192 120,202 C96,192 82,158 84,116 Z" fill="#0f172a" stroke="#0f172a" stroke-width="3"/>
+                        <!-- الجناح الأيسر -->
+                        <path d="M88,118 C88,108 100,109 117,120 L117,194 C98,186 86,154 88,118 Z" fill="url(#beetleWing1)" stroke="#f97316" stroke-width="2"/>
+                        <path d="M96,118 Q94,154 106,184" fill="none" stroke="#fef3c7" stroke-width="4" opacity="0.8" stroke-linecap="round"/>
+                        <!-- الجناح الأيمن -->
+                        <path d="M152,118 C152,108 140,109 123,120 L123,194 C142,186 154,154 152,118 Z" fill="url(#beetleWing1)" stroke="#f97316" stroke-width="2"/>
+                        <path d="M144,118 Q146,154 134,184" fill="none" stroke="#fef3c7" stroke-width="4" opacity="0.8" stroke-linecap="round"/>
+                        <!-- مثلث الدرع الأوسط -->
+                        <polygon points="108,106 132,106 120,122" fill="#475569" stroke="#0f172a" stroke-width="2.5" stroke-linejoin="round"/>
+                    </svg>
+                `
+            },
+            {
+                id: 2,
+                scrambled: 'retcaure',
+                answer: 'creature',
+                arMeaning: 'مخلوق',
+                hintEn: 'A cute friendly green monster with fin ears and a big smile.',
+                badgeColor: 'bg-orange-700',
+                svg: `
+                    <svg viewBox="0 0 240 220" preserveAspectRatio="xMidYMid meet" class="w-full h-full">
+                        <rect width="240" height="220" fill="#ffffff"/>
+                        <!-- عرف الرأس والأذنان الزعنفيتان -->
+                        <path d="M96,36 L104,16 L114,26 L120,8 L128,26 L138,16 L144,36 Z" fill="#a3e635" stroke="#14532d" stroke-width="2.6" stroke-linejoin="round"/>
+                        <path d="M84,56 L66,40 L72,62 L68,74 L84,74 Z" fill="#a3e635" stroke="#14532d" stroke-width="2.4" stroke-linejoin="round"/>
+                        <path d="M156,56 L174,40 L168,62 L172,74 L156,74 Z" fill="#a3e635" stroke="#14532d" stroke-width="2.4" stroke-linejoin="round"/>
+                        <!-- الذراعان -->
+                        <path d="M88,92 C66,94 52,116 48,144 L40,158 C38,164 46,166 50,158 L54,164 C58,166 62,158 60,150 L68,154 C72,152 68,144 62,140 C66,124 76,112 90,110 Z" fill="#65a30d" stroke="#14532d" stroke-width="2.6" stroke-linejoin="round"/>
+                        <path d="M152,92 C174,94 188,116 192,144 L200,158 C202,164 194,166 190,158 L186,164 C182,166 178,158 180,150 L172,154 C168,152 172,144 178,140 C174,124 164,112 150,110 Z" fill="#65a30d" stroke="#14532d" stroke-width="2.6" stroke-linejoin="round"/>
+                        <!-- الساقان والقدمان -->
+                        <path d="M86,144 C72,156 76,174 82,196 L78,208 C92,214 108,212 114,204 C114,198 104,194 98,192 L98,168 C108,164 110,154 104,144 Z" fill="#65a30d" stroke="#14532d" stroke-width="2.6" stroke-linejoin="round"/>
+                        <path d="M154,144 C168,156 164,174 158,192 L176,198 C184,202 180,210 166,210 L144,204 L142,172 C132,164 132,154 136,144 Z" fill="#65a30d" stroke="#14532d" stroke-width="2.6" stroke-linejoin="round"/>
+                        <!-- الجسم الرئيسي والبطن الفاتح المخطط -->
+                        <ellipse cx="120" cy="128" rx="40" ry="44" fill="#65a30d" stroke="#14532d" stroke-width="2.8"/>
+                        <ellipse cx="122" cy="128" rx="26" ry="36" fill="#bef264" stroke="#14532d" stroke-width="2"/>
+                        <path d="M104,108 Q122,114 140,108 M102,120 Q122,126 142,120 M103,132 Q122,138 141,132 M106,144 Q122,150 138,144" fill="none" stroke="#3f6212" stroke-width="2" stroke-linecap="round"/>
+                        <!-- البقع الفاتحة -->
+                        <ellipse cx="76" cy="104" rx="7" ry="4.5" transform="rotate(-20 76 104)" fill="#bef264" stroke="#14532d" stroke-width="1.5"/>
+                        <circle cx="84" cy="142" r="6" fill="#bef264" stroke="#14532d" stroke-width="1.5"/>
+                        <ellipse cx="164" cy="104" rx="6" ry="4" transform="rotate(20 164 104)" fill="#bef264" stroke="#14532d" stroke-width="1.5"/>
+                        <!-- الرأس والعيون والابتسامة ذات الأنياب الصغيرة -->
+                        <ellipse cx="120" cy="64" rx="36" ry="32" fill="#65a30d" stroke="#14532d" stroke-width="2.8"/>
+                        <circle cx="107" cy="58" r="9.5" fill="#ffffff" stroke="#14532d" stroke-width="2.2"/>
+                        <circle cx="108" cy="59" r="5.5" fill="#0f172a"/>
+                        <circle cx="106" cy="56" r="2.2" fill="#ffffff"/>
+                        <circle cx="135" cy="58" r="9.5" fill="#ffffff" stroke="#14532d" stroke-width="2.2"/>
+                        <circle cx="134" cy="59" r="5.5" fill="#0f172a"/>
+                        <circle cx="132" cy="56" r="2.2" fill="#ffffff"/>
+                        <path d="M122,64 Q128,66 126,72" fill="none" stroke="#14532d" stroke-width="2" stroke-linecap="round"/>
+                        <path d="M104,74 Q122,82 138,76 C134,88 110,90 104,74 Z" fill="#dc2626" stroke="#14532d" stroke-width="2.2" stroke-linejoin="round"/>
+                        <polygon points="109,76 114,77 111,83" fill="#ffffff" stroke="#14532d" stroke-width="1"/>
+                        <polygon points="120,78 125,78 122,84" fill="#ffffff" stroke="#14532d" stroke-width="1"/>
+                        <polygon points="131,77 135,77 133,82" fill="#ffffff" stroke="#14532d" stroke-width="1"/>
+                    </svg>
+                `
+            },
+            {
+                id: 3,
+                scrambled: 'rtdees',
+                answer: 'desert',
+                arMeaning: 'صحراء',
+                hintEn: 'A hot dry place with sand dunes, sunset sky, and tall cactus plants.',
+                badgeColor: 'bg-orange-700',
+                svg: `
+                    <svg viewBox="0 0 280 180" preserveAspectRatio="xMidYMid slice" class="w-full h-full">
+                        <defs>
+                            <linearGradient id="desSky3" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0%" stop-color="#ef4444"/>
+                                <stop offset="48%" stop-color="#fb923c"/>
+                                <stop offset="100%" stop-color="#fef08a"/>
+                            </linearGradient>
+                            <linearGradient id="desSand3" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0%" stop-color="#fde047"/>
+                                <stop offset="45%" stop-color="#f59e0b"/>
+                                <stop offset="100%" stop-color="#b45309"/>
+                            </linearGradient>
+                        </defs>
+                        <rect width="280" height="180" fill="url(#desSky3)"/>
+                        <!-- الشمس المشرقة عند الأفق -->
+                        <circle cx="156" cy="108" r="24" fill="#ffffff" opacity="0.92"/>
+                        <circle cx="156" cy="108" r="34" fill="#fef08a" opacity="0.4"/>
+                        <!-- سحب الغروب -->
+                        <path d="M18,52 Q52,40 88,52 Q112,48 128,58 L18,58 Z" fill="#dc2626" opacity="0.35"/>
+                        <path d="M188,68 Q226,56 268,66 L268,74 L188,74 Z" fill="#dc2626" opacity="0.35"/>
+                        <!-- الهضاب الصخرية (Mesas) -->
+                        <path d="M0,126 L0,96 L32,96 L52,114 L64,78 L92,78 L108,118 L122,100 L140,100 L156,126 Z" fill="#c26d61"/>
+                        <path d="M174,126 L194,92 L212,92 L222,102 L252,100 L280,110 L280,126 Z" fill="#b45c54"/>
+                        <!-- الكثبان الرملية -->
+                        <path d="M0,126 Q90,118 180,130 Q230,136 280,124 L280,180 L0,180 Z" fill="url(#desSand3)"/>
+                        <path d="M0,152 Q80,136 160,156 Q220,168 280,148 L280,180 L0,180 Z" fill="#d97706" opacity="0.55"/>
+                        <!-- صبار كبير يسار -->
+                        <g fill="#4d7c0f" stroke="#1a2e05" stroke-width="1.5">
+                            <rect x="44" y="14" width="12" height="150" rx="6"/>
+                            <path d="M44,126 C26,126 24,108 24,84 L24,62 C24,56 34,56 34,62 L34,106 C34,114 38,116 44,116 Z"/>
+                            <path d="M56,142 C70,142 74,124 74,104 L74,90 C74,84 64,84 64,90 L64,122 C64,130 60,132 56,132 Z"/>
+                        </g>
+                        <!-- صبار متوسط وسط -->
+                        <g fill="#65a30d" stroke="#1a2e05" stroke-width="1.2">
+                            <rect x="112" y="96" width="7" height="54" rx="3.5"/>
+                            <path d="M112,134 C104,134 103,124 103,116 L108,116 L108,128 L112,128 Z"/>
+                            <path d="M119,128 C126,128 127,118 127,110 L122,110 L122,122 L119,122 Z"/>
+                        </g>
+                        <!-- صبار طويل يمين -->
+                        <g fill="#3f6212" stroke="#1a2e05" stroke-width="1.4">
+                            <rect x="224" y="52" width="9" height="106" rx="4.5"/>
+                            <path d="M224,134 C212,134 210,118 210,96 C210,90 218,90 218,96 L218,122 L224,122 Z"/>
+                            <path d="M233,124 C244,124 246,110 246,92 C246,86 238,86 238,92 L238,114 L233,114 Z"/>
+                        </g>
+                        <!-- صخور ونبتة صحراوية -->
+                        <polygon points="56,164 74,154 90,164 82,172 60,172" fill="#94a3b8" stroke="#475569" stroke-width="1.2"/>
+                        <polygon points="208,166 244,152 252,164 234,172 212,172" fill="#cbd5e1" stroke="#475569" stroke-width="1.2"/>
+                    </svg>
+                `
+            },
+            {
+                id: 4,
+                scrambled: 'tsen',
+                answer: 'nest',
+                arMeaning: 'عش الطيور',
+                hintEn: 'A cozy home made of twigs where birds keep their eggs.',
+                badgeColor: 'bg-orange-700',
+                svg: `
+                    <svg viewBox="0 0 260 220" preserveAspectRatio="xMidYMid meet" class="w-full h-full">
+                        <defs>
+                            <radialGradient id="eggGrad4" cx="35%" cy="30%" r="70%">
+                                <stop offset="0%" stop-color="#ffffff"/>
+                                <stop offset="70%" stop-color="#f1f5f9"/>
+                                <stop offset="100%" stop-color="#cbd5e1"/>
+                            </radialGradient>
+                        </defs>
+                        <rect width="260" height="220" fill="#fefce8"/>
+                        <!-- الأغصان والأوراق الخضراء -->
+                        <g stroke="#5c3415" stroke-width="4" stroke-linecap="round">
+                            <line x1="205" y1="88" x2="242" y2="44"/>
+                            <line x1="58" y1="84" x2="28" y2="62"/>
+                            <line x1="176" y1="68" x2="196" y2="30"/>
+                            <line x1="202" y1="162" x2="238" y2="168"/>
+                        </g>
+                        <g fill="#65a30d" stroke="#365314" stroke-width="1.4">
+                            <ellipse cx="32" cy="58" rx="14" ry="7" transform="rotate(24 32 58)"/>
+                            <ellipse cx="46" cy="70" rx="12" ry="6" transform="rotate(-18 46 70)"/>
+                            <ellipse cx="182" cy="40" rx="12" ry="6" transform="rotate(42 182 40)"/>
+                            <ellipse cx="204" cy="44" rx="12" ry="6" transform="rotate(-24 204 44)"/>
+                            <ellipse cx="232" cy="168" rx="14" ry="7" transform="rotate(-12 232 168)"/>
+                            <ellipse cx="222" cy="182" rx="11" ry="5.5" transform="rotate(26 222 182)"/>
+                        </g>
+                        <!-- جسم العش المنسوج من الأغصان -->
+                        <ellipse cx="130" cy="128" rx="84" ry="58" fill="#5c3415" stroke="#3b1d0a" stroke-width="3"/>
+                        <ellipse cx="130" cy="116" rx="68" ry="42" fill="#3b1d0a"/>
+                        <!-- ثلاث بيضات ناصعة داخل العش -->
+                        <ellipse cx="144" cy="108" rx="18" ry="22" transform="rotate(14 144 108)" fill="url(#eggGrad4)" stroke="#94a3b8" stroke-width="1.5"/>
+                        <ellipse cx="108" cy="112" rx="19" ry="24" transform="rotate(-16 108 112)" fill="url(#eggGrad4)" stroke="#94a3b8" stroke-width="1.5"/>
+                        <ellipse cx="152" cy="124" rx="23" ry="17" transform="rotate(-8 152 124)" fill="url(#eggGrad4)" stroke="#94a3b8" stroke-width="1.5"/>
+                        <!-- حافة الأغصان الأمامية المتشابكة -->
+                        <g fill="none" stroke-linecap="round">
+                            <path d="M52,116 Q130,174 208,116" stroke="#92400e" stroke-width="7"/>
+                            <path d="M46,128 Q130,188 214,128" stroke="#78350f" stroke-width="6"/>
+                            <path d="M58,142 Q130,196 202,142" stroke="#b45309" stroke-width="4.5"/>
+                            <path d="M68,154 Q130,186 192,154" stroke="#78350f" stroke-width="4"/>
+                            <path d="M62,102 Q130,66 198,102" stroke="#92400e" stroke-width="5"/>
+                            <path d="M54,112 Q130,154 206,112" stroke="#d97706" stroke-width="2.5" opacity="0.8"/>
+                            <path d="M44,124 L26,134 M214,122 L232,132 M78,176 L58,190" stroke="#78350f" stroke-width="3"/>
+                        </g>
+                    </svg>
+                `
+            },
+            {
+                id: 5,
+                scrambled: 'ryfur',
+                answer: 'furry',
+                arMeaning: 'ذو فراء ناعم',
+                hintEn: 'Soft fluffy golden-brown fur and a striped furry tail.',
+                badgeColor: 'bg-lime-700',
+                svg: buildFurryArtSvg()
+            },
+            {
+                id: 6,
+                scrambled: 'njoreyu',
+                answer: 'journey',
+                arMeaning: 'رحلة سفر',
+                hintEn: 'A happy family going on a long trip in a red car with suitcases.',
+                badgeColor: 'bg-lime-700',
+                svg: `
+                    <svg viewBox="0 0 260 220" preserveAspectRatio="xMidYMid meet" class="w-full h-full">
+                        <defs>
+                            <linearGradient id="carSky6" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0%" stop-color="#bae6fd"/>
+                                <stop offset="100%" stop-color="#f0f9ff"/>
+                            </linearGradient>
+                            <linearGradient id="redCar6" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0%" stop-color="#f87171"/>
+                                <stop offset="55%" stop-color="#ef4444"/>
+                                <stop offset="100%" stop-color="#b91c1c"/>
+                            </linearGradient>
+                        </defs>
+                        <rect width="260" height="220" fill="url(#carSky6)"/>
+                        <!-- طريق أسفل السيارة -->
+                        <rect x="0" y="188" width="260" height="32" fill="#cbd5e1"/>
+                        <line x1="16" y1="204" x2="54" y2="204" stroke="#ffffff" stroke-width="3" stroke-dasharray="16 14"/>
+                        <line x1="90" y1="204" x2="244" y2="204" stroke="#ffffff" stroke-width="3" stroke-dasharray="16 14"/>
+                        <!-- أفراد العائلة المبتهجون فوق السيارة -->
+                        <!-- الولد اليسار -->
+                        <g>
+                            <path d="M62,74 L92,76 L86,104 L62,100 Z" fill="#38bdf8" stroke="#0369a1" stroke-width="1.5"/>
+                            <circle cx="88" cy="52" r="18" fill="#fed7aa" stroke="#7c2d12" stroke-width="1.6"/>
+                            <path d="M68,46 C68,26 106,22 108,46 C96,38 78,42 68,46 Z" fill="#78350f"/>
+                            <circle cx="82" cy="52" r="2.2" fill="#0f172a"/>
+                            <circle cx="94" cy="52" r="2.2" fill="#0f172a"/>
+                            <path d="M84,60 Q88,65 93,60" fill="#dc2626" stroke="#7f1d1d" stroke-width="1.3"/>
+                        </g>
+                        <!-- الأب بالقبعة الصفراء والنظارة -->
+                        <g>
+                            <path d="M150,86 L180,86 L176,112 L152,112 Z" fill="#22c55e" stroke="#15803d" stroke-width="1.5"/>
+                            <circle cx="164" cy="64" r="19" fill="#fed7aa" stroke="#7c2d12" stroke-width="1.6"/>
+                            <ellipse cx="166" cy="48" rx="26" ry="8" transform="rotate(10 166 48)" fill="#facc15" stroke="#a16207" stroke-width="1.6"/>
+                            <path d="M148,46 C152,32 178,34 182,50 Z" fill="#eab308" stroke="#a16207" stroke-width="1.6"/>
+                            <rect x="148" y="56" width="13" height="9" rx="3" fill="#334155" opacity="0.85"/>
+                            <rect x="165" y="58" width="13" height="9" rx="3" fill="#334155" opacity="0.85"/>
+                            <path d="M156,72 Q164,78 172,72" fill="#dc2626" stroke="#7f1d1d" stroke-width="1.3"/>
+                        </g>
+                        <!-- رف الأمتعة والحقائب فوق سقف السيارة -->
+                        <rect x="52" y="106" width="104" height="14" rx="4" fill="#d97706" stroke="#78350f" stroke-width="2"/>
+                        <rect x="78" y="84" width="34" height="24" rx="4" fill="#facc15" stroke="#a16207" stroke-width="2"/>
+                        <rect x="114" y="88" width="40" height="20" rx="4" fill="#b45309" stroke="#78350f" stroke-width="2"/>
+                        <!-- السيارة الحمراء -->
+                        <path d="M40,152 L54,122 L154,122 L176,148 L224,154 C232,156 234,168 232,182 L32,182 C30,168 32,156 40,152 Z" fill="url(#redCar6)" stroke="#7f1d1d" stroke-width="2.4" stroke-linejoin="round"/>
+                        <!-- نوافذ السيارة -->
+                        <polygon points="58,128 84,128 80,148 50,148" fill="#e2e8f0" stroke="#475569" stroke-width="1.8"/>
+                        <polygon points="90,128 118,128 122,148 86,148" fill="#e2e8f0" stroke="#475569" stroke-width="1.8"/>
+                        <polygon points="126,128 152,128 168,148 130,148" fill="#cbd5e1" stroke="#475569" stroke-width="1.8"/>
+                        <!-- الشبك الأمامي والمصابيح -->
+                        <rect x="150" y="158" width="76" height="16" rx="4" fill="#334155"/>
+                        <line x1="164" y1="163" x2="212" y2="163" stroke="#94a3b8" stroke-width="2"/>
+                        <line x1="164" y1="169" x2="212" y2="169" stroke="#94a3b8" stroke-width="2"/>
+                        <circle cx="154" cy="166" r="8" fill="#f8fafc" stroke="#475569" stroke-width="2"/>
+                        <circle cx="222" cy="166" r="7" fill="#f8fafc" stroke="#475569" stroke-width="2"/>
+                        <rect x="142" y="176" width="96" height="8" rx="4" fill="#64748b"/>
+                        <!-- البنت بالنظارة الشمسية على غطاء السيارة -->
+                        <g>
+                            <path d="M132,130 L152,130 L156,148 L136,148 Z" fill="#38bdf8" stroke="#0369a1" stroke-width="1.4"/>
+                            <circle cx="144" cy="114" r="15" fill="#fed7aa" stroke="#7c2d12" stroke-width="1.5"/>
+                            <path d="M118,108 Q144,90 172,112 Z" fill="#fb923c" stroke="#c2410c" stroke-width="1.5"/>
+                            <rect x="132" y="110" width="11" height="8" rx="3" fill="#1e293b"/>
+                            <rect x="146" y="111" width="11" height="8" rx="3" fill="#1e293b"/>
+                            <path d="M140,122 Q144,126 148,122" fill="#dc2626"/>
+                        </g>
+                        <!-- العجلات -->
+                        <circle cx="52" cy="184" r="18" fill="#1e293b" stroke="#0f172a" stroke-width="2"/>
+                        <circle cx="52" cy="184" r="9" fill="#cbd5e1"/>
+                        <circle cx="122" cy="188" r="20" fill="#1e293b" stroke="#0f172a" stroke-width="2"/>
+                        <circle cx="122" cy="188" r="10" fill="#e2e8f0"/>
+                        <circle cx="204" cy="186" r="16" fill="#1e293b" stroke="#0f172a" stroke-width="2"/>
+                        <circle cx="204" cy="186" r="7" fill="#94a3b8"/>
+                    </svg>
+                `
+            },
+            {
+                id: 7,
+                scrambled: 'ldiw',
+                answer: 'wild',
+                arMeaning: 'بري / متوحش',
+                hintEn: 'A strong golden lion living free in nature.',
+                badgeColor: 'bg-lime-700',
+                svg: `
+                    <svg viewBox="0 0 280 220" preserveAspectRatio="xMidYMid meet" class="w-full h-full">
+                        <defs>
+                            <linearGradient id="lionBody7" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0%" stop-color="#fbbf24"/>
+                                <stop offset="100%" stop-color="#f59e0b"/>
+                            </linearGradient>
+                            <linearGradient id="lionMane7" x1="0" y1="0" x2="1" y2="1">
+                                <stop offset="0%" stop-color="#ea580c"/>
+                                <stop offset="55%" stop-color="#b45309"/>
+                                <stop offset="100%" stop-color="#7c2d12"/>
+                            </linearGradient>
+                        </defs>
+                        <rect width="280" height="220" fill="#ffffff"/>
+                        <!-- الذيل بخصلة بنية -->
+                        <path d="M186,102 C202,134 206,174 234,180" fill="none" stroke="#f59e0b" stroke-width="7" stroke-linecap="round"/>
+                        <path d="M232,180 C244,170 258,172 266,166 C258,184 244,192 230,184 Z" fill="#7c2d12" stroke="#451a03" stroke-width="1.8"/>
+                        <!-- الساقان الخلفيتان -->
+                        <path d="M148,136 C158,154 166,166 158,192 L176,192 C182,168 184,154 172,134 Z" fill="#ea580c" stroke="#7c2d12" stroke-width="2"/>
+                        <path d="M168,128 C184,148 192,164 188,194 L206,194 C210,166 206,144 190,118 Z" fill="url(#lionBody7)" stroke="#92400e" stroke-width="2"/>
+                        <!-- الجسم الرئيسي والبطن الفاتح -->
+                        <path d="M100,92 C136,84 176,84 192,102 C202,114 196,144 176,154 C146,154 116,154 96,148 Z" fill="url(#lionBody7)" stroke="#92400e" stroke-width="2.2"/>
+                        <path d="M116,136 Q146,142 170,134 L166,148 Q142,152 114,146 Z" fill="#fde68a"/>
+                        <!-- الساقان الأماميتان -->
+                        <path d="M68,144 L76,196 L96,196 L96,144 Z" fill="#f59e0b" stroke="#92400e" stroke-width="2"/>
+                        <path d="M96,136 L102,198 L122,198 L130,136 Z" fill="url(#lionBody7)" stroke="#92400e" stroke-width="2"/>
+                        <!-- الكفوف الأربع -->
+                        <ellipse cx="76" cy="198" rx="18" ry="10" fill="#fde68a" stroke="#92400e" stroke-width="2"/>
+                        <ellipse cx="104" cy="200" rx="19" ry="11" fill="#fde68a" stroke="#92400e" stroke-width="2"/>
+                        <ellipse cx="164" cy="194" rx="17" ry="9" fill="#fde68a" stroke="#92400e" stroke-width="2"/>
+                        <ellipse cx="192" cy="196" rx="18" ry="10" fill="#fde68a" stroke="#92400e" stroke-width="2"/>
+                        <!-- اللبدة الكثيفة (Mane) -->
+                        <path d="M44,126 C26,108 26,76 44,54 C42,32 66,14 96,16 C126,18 144,44 144,78 C144,114 124,144 102,158 C80,152 56,142 44,126 Z" fill="url(#lionMane7)" stroke="#7c2d12" stroke-width="2.4" stroke-linejoin="round"/>
+                        <!-- الأذنان والوجه المبتسم -->
+                        <circle cx="54" cy="54" r="11" fill="#fbbf24" stroke="#92400e" stroke-width="2"/>
+                        <circle cx="106" cy="56" r="12" fill="#fbbf24" stroke="#92400e" stroke-width="2"/>
+                        <ellipse cx="78" cy="78" rx="30" ry="28" fill="#fbbf24" stroke="#92400e" stroke-width="2"/>
+                        <!-- العيون -->
+                        <ellipse cx="64" cy="64" rx="6" ry="8" fill="#ffffff" stroke="#451a03" stroke-width="1.6"/>
+                        <circle cx="65" cy="65" r="3.6" fill="#451a03"/>
+                        <circle cx="64" cy="63" r="1.4" fill="#ffffff"/>
+                        <ellipse cx="86" cy="66" rx="7" ry="8.5" fill="#ffffff" stroke="#451a03" stroke-width="1.6"/>
+                        <circle cx="85" cy="67" r="4" fill="#451a03"/>
+                        <circle cx="84" cy="65" r="1.5" fill="#ffffff"/>
+                        <!-- الأنف والخطم والابتسامة -->
+                        <path d="M48,78 C54,70 76,68 84,80 C88,96 76,108 62,106 C50,104 46,92 48,78 Z" fill="#fef3c7" stroke="#b45309" stroke-width="1.6"/>
+                        <polygon points="46,76 68,74 58,86" fill="#e11d48" stroke="#881337" stroke-width="1.5" stroke-linejoin="round"/>
+                        <path d="M52,92 Q68,96 80,82" fill="none" stroke="#451a03" stroke-width="2.2" stroke-linecap="round"/>
+                        <line x1="58" y1="86" x2="60" y2="93" stroke="#451a03" stroke-width="1.6"/>
+                    </svg>
+                `
+            },
+            {
+                id: 8,
+                scrambled: 'odpn',
+                answer: 'pond',
+                arMeaning: 'بركة ماء',
+                hintEn: 'A small body of calm water with lily pads, lotus flowers, and a happy frog.',
+                badgeColor: 'bg-lime-700',
+                svg: `
+                    <svg viewBox="0 0 280 180" preserveAspectRatio="xMidYMid meet" class="w-full h-full">
+                        <defs>
+                            <linearGradient id="pondSky8" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0%" stop-color="#38bdf8"/>
+                                <stop offset="68%" stop-color="#bae6fd"/>
+                                <stop offset="100%" stop-color="#fef9c3"/>
+                            </linearGradient>
+                            <linearGradient id="pondWater8" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0%" stop-color="#2dd4bf"/>
+                                <stop offset="50%" stop-color="#0d9488"/>
+                                <stop offset="100%" stop-color="#0f766e"/>
+                            </linearGradient>
+                            <radialGradient id="pondSun8" cx="50%" cy="50%" r="50%">
+                                <stop offset="0%" stop-color="#fef08a"/>
+                                <stop offset="60%" stop-color="#fde047" stop-opacity="0.7"/>
+                                <stop offset="100%" stop-color="#fde047" stop-opacity="0"/>
+                            </radialGradient>
+                        </defs>
+                        <!-- السماء والشمس والتلال الخضراء -->
+                        <rect width="280" height="180" fill="url(#pondSky8)"/>
+                        <circle cx="222" cy="24" r="24" fill="url(#pondSun8)"/>
+                        <circle cx="222" cy="24" r="10" fill="#fef08a"/>
+                        <path d="M0,74 Q64,46 132,66 Q204,42 280,68 L280,82 L0,82 Z" fill="#86efac"/>
+                        <path d="M0,78 Q88,58 176,74 Q232,62 280,76 L280,86 L0,86 Z" fill="#4ade80"/>
+                        <!-- مياه البركة الهادئة -->
+                        <rect x="0" y="76" width="280" height="104" fill="url(#pondWater8)"/>
+                        <ellipse cx="140" cy="108" rx="108" ry="26" fill="#5eead4" opacity="0.28"/>
+                        <path d="M78,94 Q106,90 130,94 M162,102 Q194,98 220,104" fill="none" stroke="#ccfbf1" stroke-width="2" stroke-linecap="round" opacity="0.7"/>
+                        <!-- الضفتان العشبيتان وقصب البردي على الجانبين -->
+                        <path d="M0,70 Q42,76 54,108 Q44,126 0,126 Z" fill="#65a30d"/>
+                        <path d="M280,70 Q238,76 226,108 Q236,126 280,126 Z" fill="#65a30d"/>
+                        <g stroke="#1a2e05" stroke-width="1.4">
+                            <!-- قصب يسار -->
+                            <path d="M12,118 L14,44 L22,118 Z" fill="#4d7c0f"/>
+                            <path d="M22,118 L34,54 L32,118 Z" fill="#65a30d"/>
+                            <line x1="38" y1="118" x2="40" y2="38" stroke="#365314" stroke-width="2.5"/>
+                            <rect x="36.5" y="42" width="7" height="18" rx="3.5" fill="#78350f"/>
+                            <!-- قصب يمين -->
+                            <path d="M268,118 L266,44 L258,118 Z" fill="#4d7c0f"/>
+                            <path d="M258,118 L246,54 L248,118 Z" fill="#65a30d"/>
+                            <line x1="242" y1="118" x2="240" y2="38" stroke="#365314" stroke-width="2.5"/>
+                            <rect x="236.5" y="42" width="7" height="18" rx="3.5" fill="#78350f"/>
+                        </g>
+                        <!-- صخور ناعمة على طرفي البركة -->
+                        <ellipse cx="48" cy="116" rx="18" ry="10" fill="#94a3b8" stroke="#475569" stroke-width="1.5"/>
+                        <ellipse cx="232" cy="114" rx="17" ry="9" fill="#94a3b8" stroke="#475569" stroke-width="1.5"/>
+                        <!-- يعسوب لطيف يحلق فوق البركة -->
+                        <g transform="translate(194, 52) rotate(-14)">
+                            <ellipse cx="6" cy="-5" rx="11" ry="3.5" transform="rotate(-24 6 -5)" fill="#e0f2fe" stroke="#38bdf8" stroke-width="1"/>
+                            <ellipse cx="8" cy="5" rx="9" ry="3" transform="rotate(24 8 5)" fill="#e0f2fe" stroke="#38bdf8" stroke-width="1"/>
+                            <line x1="-10" y1="0" x2="14" y2="0" stroke="#0284c7" stroke-width="3.5" stroke-linecap="round"/>
+                            <circle cx="15" cy="0" r="3" fill="#0369a1"/>
+                        </g>
+                        <!-- أوراق الزنبق وزهور اللوتس الوردية -->
+                        <g>
+                            <!-- ورقة الزنبق اليسرى وزهرة اللوتس -->
+                            <path d="M24,148 A30,12 0 1,1 78,144 L54,146 Z" fill="#22c55e" stroke="#14532d" stroke-width="1.6"/>
+                            <path d="M40,144 Q42,126 52,134 Q56,120 60,134 Q70,126 68,144 Q54,150 40,144 Z" fill="#f472b6" stroke="#be185d" stroke-width="1.3"/>
+                            <circle cx="56" cy="139" r="3.5" fill="#fde047"/>
+                            <!-- ورقة الزنبق اليمنى وزهرة اللوتس -->
+                            <path d="M202,148 A30,12 0 1,1 256,144 L232,146 Z" fill="#22c55e" stroke="#14532d" stroke-width="1.6"/>
+                            <path d="M216,144 Q218,128 226,135 Q230,122 234,135 Q242,128 240,144 Q228,150 216,144 Z" fill="#f472b6" stroke="#be185d" stroke-width="1.3"/>
+                            <circle cx="230" cy="139" r="3.2" fill="#fde047"/>
+                        </g>
+                        <!-- ورقة الزنبق الوسطى الكبيرة والضفدع ظاهر بالكامل عليها -->
+                        <g>
+                            <ellipse cx="140" cy="160" rx="52" ry="15" fill="#15803d" opacity="0.45"/>
+                            <path d="M90,156 A50,15 0 1,1 188,153 L144,156 Z" fill="#4ade80" stroke="#14532d" stroke-width="2"/>
+                            <!-- الساقان الخلفيتان للضفدع -->
+                            <ellipse cx="110" cy="140" rx="14" ry="11" transform="rotate(-24 110 140)" fill="#65a30d" stroke="#14532d" stroke-width="2"/>
+                            <ellipse cx="170" cy="140" rx="14" ry="11" transform="rotate(24 170 140)" fill="#65a30d" stroke="#14532d" stroke-width="2"/>
+                            <!-- القدمان الخلفيتان بأصابعهما الكاملة -->
+                            <path d="M106,150 L92,150 M106,152 L93,156 M108,154 L98,161" stroke="#365314" stroke-width="3" stroke-linecap="round"/>
+                            <path d="M174,150 L188,150 M174,152 L187,156 M172,154 L182,161" stroke="#365314" stroke-width="3" stroke-linecap="round"/>
+                            <!-- جسم الضفدع والبطن الأصفر الدافئ -->
+                            <ellipse cx="140" cy="138" rx="22" ry="20" fill="#84cc16" stroke="#14532d" stroke-width="2"/>
+                            <ellipse cx="140" cy="141" rx="15" ry="14" fill="#fef08a"/>
+                            <!-- اليدان الأماميتان بالكامل -->
+                            <path d="M124,132 L120,156 M120,156 L112,160 M120,156 L120,163 M120,156 L127,160" fill="none" stroke="#365314" stroke-width="3.2" stroke-linecap="round"/>
+                            <path d="M156,132 L160,156 M160,156 L153,160 M160,156 L160,163 M160,156 L168,160" fill="none" stroke="#365314" stroke-width="3.2" stroke-linecap="round"/>
+                            <!-- رأس الضفدع والعيون البارزة والابتسامة العريضة -->
+                            <ellipse cx="140" cy="108" rx="26" ry="20" fill="#84cc16" stroke="#14532d" stroke-width="2.2"/>
+                            <circle cx="124" cy="90" r="10.5" fill="#84cc16" stroke="#14532d" stroke-width="2"/>
+                            <circle cx="124" cy="90" r="7" fill="#ffffff" stroke="#14532d" stroke-width="1.4"/>
+                            <circle cx="125" cy="90" r="4" fill="#0f172a"/>
+                            <circle cx="123.5" cy="88" r="1.6" fill="#ffffff"/>
+                            <circle cx="156" cy="90" r="10.5" fill="#84cc16" stroke="#14532d" stroke-width="2"/>
+                            <circle cx="156" cy="90" r="7" fill="#ffffff" stroke="#14532d" stroke-width="1.4"/>
+                            <circle cx="155" cy="90" r="4" fill="#0f172a"/>
+                            <circle cx="153.5" cy="88" r="1.6" fill="#ffffff"/>
+                            <!-- الخدود والأنف والفم المبتسم -->
+                            <circle cx="136" cy="103" r="1.4" fill="#14532d"/>
+                            <circle cx="144" cy="103" r="1.4" fill="#14532d"/>
+                            <ellipse cx="120" cy="112" rx="4.5" ry="2.5" fill="#fb923c" opacity="0.7"/>
+                            <ellipse cx="160" cy="112" rx="4.5" ry="2.5" fill="#fb923c" opacity="0.7"/>
+                            <path d="M123,111 Q140,126 157,111 Q140,117 123,111 Z" fill="#991b1b" stroke="#14532d" stroke-width="1.6"/>
+                            <ellipse cx="140" cy="119" rx="6" ry="3.2" fill="#f472b6"/>
+                        </g>
+                    </svg>
+                `
+            }
+        ];
+
+        // السؤال الثاني: Circle the odd one out. (4 صفوف مطابقة تماماً للصورة المرفقة)
+        const q2Data = [
+            {
+                id: 1,
+                words: ['camel', 'eagle', 'tortoise', 'banana'],
+                answer: 'banana',
+                reasonAr: 'كلمة banana (موز) فاكهة، بينما البقية حيوانات (جمل، نسر، سلحفاة).'
+            },
+            {
+                id: 2,
+                words: ['desert', 'television', 'nest', 'pond'],
+                answer: 'television',
+                reasonAr: 'كلمة television (تلفاز) جهاز إلكتروني، بينما البقية أماكن ومواطن طبيعية.'
+            },
+            {
+                id: 3,
+                words: ['beetle', 'insect', 'refrigerator', 'butterfly'],
+                answer: 'refrigerator',
+                reasonAr: 'كلمة refrigerator (ثلاجة) جهاز منزلي، بينما البقية حشرات وكائنات حية.'
+            },
+            {
+                id: 4,
+                words: ['wing', 'fur', 'tail', 'sandwich'],
+                answer: 'sandwich',
+                reasonAr: 'كلمة sandwich (ساندويتش) طعام، بينما البقية أجزاء من أجسام الحيوانات.'
+            }
+        ];
+
+        // السؤال الثالث: Choose the correct meaning. (4 فقرات مطابقة تماماً للصورة المرفقة)
+        const q3Data = [
+            {
+                id: 1,
+                word: 'Extinct',
+                sentencePrefix: 'Extinct means',
+                options: [
+                    { key: 'a', text: 'living forever' },
+                    { key: 'b', text: 'no longer living' },
+                    { key: 'c', text: 'noisy' },
+                    { key: 'd', text: 'beautiful' }
+                ],
+                answer: 'b',
+                reasonAr: 'كلمة Extinct تعني منقرض، أي لم يعد على قيد الحياة (no longer living).'
+            },
+            {
+                id: 2,
+                word: 'Look after',
+                sentencePrefix: 'Look after means',
+                options: [
+                    { key: 'a', text: 'search for' },
+                    { key: 'b', text: 'run away' },
+                    { key: 'c', text: 'look at' },
+                    { key: 'd', text: 'take care of' }
+                ],
+                answer: 'd',
+                reasonAr: 'العبارة Look after تعني يعتني بـ، وتساوي (take care of).'
+            },
+            {
+                id: 3,
+                word: 'Journey',
+                sentencePrefix: 'Journey means',
+                options: [
+                    { key: 'a', text: 'a long trip' },
+                    { key: 'b', text: 'breakfast' },
+                    { key: 'c', text: 'homework' },
+                    { key: 'd', text: 'classroom' }
+                ],
+                answer: 'a',
+                reasonAr: 'كلمة Journey تعني رحلة سفر طويلة، أي (a long trip).'
+            },
+            {
+                id: 4,
+                word: 'Quiet',
+                sentencePrefix: 'Quiet means',
+                options: [
+                    { key: 'a', text: 'loud' },
+                    { key: 'b', text: 'not noisy' },
+                    { key: 'c', text: 'heavy' },
+                    { key: 'd', text: 'busy' }
+                ],
+                answer: 'b',
+                reasonAr: 'كلمة Quiet تعني هادئ، أي غير صاخب أو بلا ضوضاء (not noisy).'
+            }
+        ];
+
+        // ==========================================
+        // 2. حالة إجابات الطالب
+        // ==========================================
+        const quizState = {
+            q1: {},
+            q2: {},
+            q3: {}
+        };
+        const q1UsedTileIndices = {};
+
+        // ==========================================
+        // 3. بناء واجهة الأسئلة الثلاثة ديناميكياً
+        // ==========================================
+        function renderQuestion1() {
+            const grid = document.getElementById('q1-grid');
+            if (!grid) return;
+            grid.innerHTML = '';
+
+            q1Data.forEach(item => {
+                q1UsedTileIndices[item.id] = [];
+                const letters = item.scrambled.split('');
+
+                const card = document.createElement('div');
+                card.id = `q1-card-${item.id}`;
+                card.className = 'quiz-card-enhanced sentence-box bg-white rounded-3xl border-2 border-amber-200 hover:border-amber-400 p-3.5 shadow-md flex flex-col justify-between gap-3 transition-all';
+
+                const tilesHtml = letters.map((ch, idx) => `
+                    <button type="button" id="q1-tile-${item.id}-${idx}" onclick="clickLetterTile(${item.id}, ${idx}, '${ch}')" class="letter-tile w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-amber-100 hover:bg-amber-200 border border-amber-300 text-amber-950 font-black text-sm en-text flex items-center justify-center shadow-sm cursor-pointer">
+                        ${ch}
+                    </button>
+                `).join('');
+
+                card.innerHTML = `
+                    <!-- إطار الصورة -->
+                    <div class="quiz-art-frame relative h-40 rounded-2xl overflow-hidden bg-white border-2 border-slate-200 shadow-inner flex items-center justify-center p-1">
+                        <span class="absolute top-2 left-2 z-10 w-8 h-8 rounded-xl ${item.badgeColor} text-white font-black text-base flex items-center justify-center shadow-md en-text border border-white/60">${item.id}</span>
+                        <button type="button" onclick="speakText('${item.hintEn.replace(/'/g, "\\'")}', null, false, 'q1-card-${item.id}')" class="audio-btn absolute top-2 right-2 z-10 w-8 h-8 rounded-full bg-white/95 hover:bg-amber-50 text-amber-700 border border-amber-300 shadow flex items-center justify-center" title="استمع للتلميح الصوتي">
+                            <i class="fa-solid fa-volume-high text-xs"></i>
+                        </button>
+                        ${item.svg}
+                    </div>
+
+                    <!-- الحروف المبعثرة (بلاطات قابلة للنقر) -->
+                    <div class="space-y-2">
+                        <div class="bg-amber-50/90 border border-amber-200 rounded-xl p-2 text-center">
+                            <div class="text-[10px] font-extrabold text-amber-800/80 mb-1 uppercase tracking-wider en-text">${item.scrambled}</div>
+                            <div class="flex flex-wrap items-center justify-center gap-1">${tilesHtml}</div>
+                        </div>
+
+                        <!-- حقل كتابة الإجابة مع أزرار مسح وتلميح -->
+                        <div class="flex items-center gap-1.5">
+                            <input id="q1-input-${item.id}" type="text" autocomplete="off" spellcheck="false" placeholder="Write word..." oninput="onQ1InputChange(${item.id}, this.value)" class="en-text flex-1 min-w-0 bg-slate-50 focus:bg-white border-2 border-slate-300 focus:border-amber-500 rounded-xl px-3 py-1.5 text-center font-extrabold text-base text-slate-900 focus:outline-none transition">
+                            <button type="button" onclick="clearQ1Item(${item.id})" class="audio-btn w-8 h-9 rounded-xl bg-slate-100 hover:bg-rose-100 text-slate-600 hover:text-rose-600 border border-slate-200 flex items-center justify-center shrink-0" title="مسح الإجابة">
+                                <i class="fa-solid fa-eraser text-xs"></i>
+                            </button>
+                            <button type="button" onclick="giveQ1Hint(${item.id})" class="audio-btn w-8 h-9 rounded-xl bg-amber-100 hover:bg-amber-200 text-amber-800 border border-amber-300 flex items-center justify-center shrink-0" title="تلميح بأول حرف">
+                                <i class="fa-solid fa-lightbulb text-xs"></i>
+                            </button>
+                        </div>
+
+                        <!-- التغذية الراجعة الفورية للبطاقة -->
+                        <div id="q1-fb-${item.id}" dir="rtl" class="hidden text-[11px] font-extrabold px-2.5 py-1 rounded-xl text-center"></div>
+                    </div>
+                `;
+
+                grid.appendChild(card);
+            });
+        }
+
+        function clickLetterTile(itemId, tileIdx, ch) {
+            const tile = document.getElementById(`q1-tile-${itemId}-${tileIdx}`);
+            const input = document.getElementById(`q1-input-${itemId}`);
+            if (!tile || !input || tile.disabled) return;
+
+            tile.disabled = true;
+            tile.classList.add('letter-tile-used');
+            q1UsedTileIndices[itemId].push(tileIdx);
+
+            input.value = (input.value || '') + ch;
+            onQ1InputChange(itemId, input.value, true);
+        }
+
+        function onQ1InputChange(itemId, val, fromTile = false) {
+            const clean = (val || '').trim();
+            quizState.q1[itemId] = clean;
+
+            const card = document.getElementById(`q1-card-${itemId}`);
+            const fb = document.getElementById(`q1-fb-${itemId}`);
+            if (card) card.classList.remove('border-emerald-500', 'bg-emerald-50/40', 'border-rose-500', 'bg-rose-50/40', 'shake');
+            if (fb) fb.classList.add('hidden');
+
+            if (!fromTile) {
+                syncQ1TilesWithText(itemId, clean.toLowerCase());
+            }
+            updateProgressUI();
+        }
+
+        function syncQ1TilesWithText(itemId, text) {
+            const item = q1Data.find(x => x.id === itemId);
+            if (!item) return;
+            const letters = item.scrambled.split('');
+            const used = [];
+            const remaining = text.split('');
+
+            letters.forEach((ch, idx) => {
+                const tile = document.getElementById(`q1-tile-${itemId}-${idx}`);
+                if (!tile) return;
+                const pos = remaining.indexOf(ch);
+                if (pos !== -1) {
+                    remaining.splice(pos, 1);
+                    tile.disabled = true;
+                    tile.classList.add('letter-tile-used');
+                    used.push(idx);
+                } else {
+                    tile.disabled = false;
+                    tile.classList.remove('letter-tile-used');
+                }
+            });
+            q1UsedTileIndices[itemId] = used;
+        }
+
+        function clearQ1Item(itemId) {
+            const input = document.getElementById(`q1-input-${itemId}`);
+            if (input) input.value = '';
+            onQ1InputChange(itemId, '');
+        }
+
+        function giveQ1Hint(itemId) {
+            const item = q1Data.find(x => x.id === itemId);
+            const input = document.getElementById(`q1-input-${itemId}`);
+            if (!item || !input) return;
+
+            const current = (input.value || '').trim().toLowerCase();
+            let nextLen = 1;
+            if (item.answer.startsWith(current) && current.length < item.answer.length) {
+                nextLen = current.length + 1;
+            }
+            const hintPrefix = item.answer.slice(0, nextLen);
+            input.value = hintPrefix;
+            onQ1InputChange(itemId, hintPrefix);
+            showToast(`تلميح: تبدأ الكلمة بـ "${hintPrefix}" (${item.arMeaning})`);
+            speakText(item.hintEn, null, false, `q1-card-${itemId}`);
+        }
+
+        function renderQuestion2() {
+            const container = document.getElementById('q2-container');
+            if (!container) return;
+            container.innerHTML = '';
+
+            q2Data.forEach(row => {
+                const rowDiv = document.createElement('div');
+                rowDiv.id = `q2-row-${row.id}`;
+                rowDiv.className = 'sentence-box bg-[#fef7d6] border-2 border-amber-200 rounded-3xl p-3.5 sm:px-5 shadow-sm transition-all space-y-2.5';
+
+                const wordsHtml = row.words.map((word, idx) => `
+                    <button type="button" id="q2-btn-${row.id}-${word}" onclick="selectQ2Word(${row.id}, '${word}')" class="odd-word-pill en-text bg-white/90 hover:bg-amber-100 text-slate-900 border-2 border-amber-200/80 px-4 py-1.5 rounded-full font-extrabold text-base sm:text-lg shadow-sm cursor-pointer">
+                        ${word}
+                    </button>
+                    ${idx < row.words.length - 1 ? '<span class="text-amber-700/60 font-black select-none">–</span>' : ''}
+                `).join('');
+
+                rowDiv.innerHTML = `
+                    <div class="flex flex-wrap items-center justify-between gap-3">
+                        <div class="flex flex-wrap items-center gap-2 sm:gap-3 flex-1">
+                            <span class="w-9 h-9 rounded-2xl bg-orange-700 text-white font-black text-base flex items-center justify-center shadow shrink-0 en-text">${row.id}</span>
+                            <div class="flex flex-wrap items-center gap-2">${wordsHtml}</div>
+                        </div>
+                        <button type="button" onclick="speakText('${row.words.join(', ')}', null, false, 'q2-row-${row.id}')" class="audio-btn w-9 h-9 rounded-full bg-white text-orange-700 border border-orange-200 shadow-sm flex items-center justify-center shrink-0" title="استمع للكلمات الأربع">
+                            <i class="fa-solid fa-volume-high text-xs"></i>
+                        </button>
+                    </div>
+                    <div id="q2-fb-${row.id}" dir="rtl" class="hidden text-xs font-extrabold px-3 py-1.5 rounded-xl"></div>
+                `;
+                container.appendChild(rowDiv);
+            });
+        }
+
+        function selectQ2Word(rowId, word) {
+            quizState.q2[rowId] = word;
+            const row = q2Data.find(r => r.id === rowId);
+            if (!row) return;
+
+            row.words.forEach(w => {
+                const btn = document.getElementById(`q2-btn-${rowId}-${w}`);
+                if (!btn) return;
+                btn.classList.remove('odd-word-selected', 'odd-word-correct', 'odd-word-wrong');
+                if (w === word) {
+                    btn.classList.add('odd-word-selected');
+                }
+            });
+
+            const fb = document.getElementById(`q2-fb-${rowId}`);
+            if (fb) fb.classList.add('hidden');
+            speakText(word, null, false, `q2-row-${rowId}`);
+            updateProgressUI();
+        }
+
+        function renderQuestion3() {
+            const container = document.getElementById('q3-container');
+            if (!container) return;
+            container.innerHTML = '';
+
+            q3Data.forEach(item => {
+                const card = document.createElement('div');
+                card.id = `q3-card-${item.id}`;
+                card.className = 'sentence-box bg-white border-2 border-lime-200 rounded-3xl p-4 sm:p-5 shadow-sm space-y-3.5 transition-all';
+
+                const optionsHtml = item.options.map(opt => `
+                    <button type="button" id="q3-opt-${item.id}-${opt.key}" onclick="selectQ3Option(${item.id}, '${opt.key}')" class="clickable-phrase flex items-center gap-2.5 bg-slate-50 hover:bg-lime-50 border-2 border-slate-200 hover:border-lime-400 rounded-2xl px-3.5 py-2.5 text-left transition">
+                        <span class="w-7 h-7 rounded-full bg-lime-700 text-white font-black text-sm en-text flex items-center justify-center shrink-0">${opt.key}</span>
+                        <span class="en-text font-extrabold text-sm sm:text-base text-slate-800">${opt.text}</span>
+                    </button>
+                `).join('');
+
+                card.innerHTML = `
+                    <div class="bg-[#fef7d6] border border-amber-200 rounded-2xl px-4 py-3 flex items-center justify-between gap-3">
+                        <div class="flex items-center gap-3 flex-wrap">
+                            <span class="w-8 h-8 rounded-xl bg-orange-700 text-white font-black text-base flex items-center justify-center shadow shrink-0 en-text">${item.id}</span>
+                            <p class="sentence-text en-text text-base sm:text-xl font-black text-slate-900">
+                                ${item.sentencePrefix}
+                                <span id="q3-blank-${item.id}" class="inline-block min-w-[115px] text-center border-b-[3px] border-slate-800 text-emerald-700 px-2 mx-1">________</span>.
+                            </p>
+                        </div>
+                        <button type="button" onclick="speakText('${item.sentencePrefix} ...', null, false, 'q3-card-${item.id}')" class="audio-btn w-9 h-9 rounded-full bg-white text-lime-700 border border-lime-300 shadow-sm flex items-center justify-center shrink-0" title="استمع للجملة">
+                            <i class="fa-solid fa-volume-high text-xs"></i>
+                        </button>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5">${optionsHtml}</div>
+                    <div id="q3-fb-${item.id}" dir="rtl" class="hidden text-xs font-extrabold px-3 py-1.5 rounded-xl"></div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function selectQ3Option(itemId, optKey) {
+            quizState.q3[itemId] = optKey;
+            const item = q3Data.find(x => x.id === itemId);
+            if (!item) return;
+
+            const chosen = item.options.find(o => o.key === optKey);
+            const blank = document.getElementById(`q3-blank-${itemId}`);
+            if (blank && chosen) {
+                blank.textContent = chosen.text;
+            }
+
+            item.options.forEach(o => {
+                const btn = document.getElementById(`q3-opt-${itemId}-${o.key}`);
+                if (!btn) return;
+                btn.classList.remove('border-amber-500', 'bg-amber-50', 'ring-2', 'ring-amber-300', 'border-emerald-500', 'bg-emerald-50', 'border-rose-500', 'bg-rose-50');
+                if (o.key === optKey) {
+                    btn.classList.add('border-amber-500', 'bg-amber-50', 'ring-2', 'ring-amber-300');
+                }
+            });
+
+            const fb = document.getElementById(`q3-fb-${itemId}`);
+            if (fb) fb.classList.add('hidden');
+            if (chosen) {
+                speakText(`${item.sentencePrefix} ${chosen.text}.`, null, false, `q3-card-${itemId}`);
+            }
+            updateProgressUI();
+        }
+
+        // ==========================================
+        // 4. تحديث شريط نسبة الإنجاز المباشر
+        // ==========================================
+        function getCompletionStats() {
+            const q1Done = q1Data.filter(item => (quizState.q1[item.id] || '').trim().length > 0).length;
+            const q2Done = q2Data.filter(row => Boolean(quizState.q2[row.id])).length;
+            const q3Done = q3Data.filter(item => Boolean(quizState.q3[item.id])).length;
+            const totalDone = q1Done + q2Done + q3Done;
+            const totalItems = q1Data.length + q2Data.length + q3Data.length;
+            const pct = Math.round((totalDone / totalItems) * 100);
+            return { q1Done, q2Done, q3Done, totalDone, totalItems, pct };
+        }
+
+        function updateProgressUI() {
+            const stats = getCompletionStats();
+
+            const bar = document.getElementById('top-progress-bar');
+            const topPct = document.getElementById('top-progress-pct-label');
+            const headerPct = document.getElementById('header-progress-pct');
+            const countText = document.getElementById('progress-count-text');
+            const heroAnswered = document.getElementById('hero-answered-count');
+            const q1Badge = document.getElementById('q1-progress-badge');
+            const q2Badge = document.getElementById('q2-progress-badge');
+            const q3Badge = document.getElementById('q3-progress-badge');
+
+            if (bar) bar.style.width = `${stats.pct}%`;
+            if (topPct) topPct.textContent = `${stats.pct}%`;
+            if (headerPct) headerPct.textContent = `${stats.pct}%`;
+            if (countText) countText.textContent = `${stats.totalDone} / ${stats.totalItems}`;
+            if (heroAnswered) heroAnswered.textContent = stats.totalDone;
+            if (q1Badge) q1Badge.textContent = `${stats.q1Done}/${q1Data.length}`;
+            if (q2Badge) q2Badge.textContent = `${stats.q2Done}/${q2Data.length}`;
+            if (q3Badge) q3Badge.textContent = `${stats.q3Done}/${q3Data.length}`;
+        }
+
+        // ==========================================
+        // 5. تصحيح الأسئلة والتغذية الراجعة
+        // ==========================================
+        function checkSection1(silent = false) {
+            let score = 0;
+            q1Data.forEach(item => {
+                const userAns = (quizState.q1[item.id] || '').trim().toLowerCase();
+                const card = document.getElementById(`q1-card-${item.id}`);
+                const fb = document.getElementById(`q1-fb-${item.id}`);
+                if (!card || !fb) return;
+
+                card.classList.remove('border-emerald-500', 'bg-emerald-50/40', 'border-rose-500', 'bg-rose-50/40', 'shake');
+                fb.classList.remove('hidden', 'bg-emerald-100', 'text-emerald-800', 'bg-rose-100', 'text-rose-800', 'bg-amber-100', 'text-amber-900');
+
+                if (userAns === item.answer) {
+                    score++;
+                    card.classList.add('border-emerald-500', 'bg-emerald-50/40');
+                    fb.classList.add('bg-emerald-100', 'text-emerald-800');
+                    fb.innerHTML = `<i class="fa-solid fa-circle-check"></i> أحسنت! (${item.arMeaning})`;
+                } else if (!userAns) {
+                    card.classList.add('border-rose-500', 'bg-rose-50/40');
+                    fb.classList.add('bg-amber-100', 'text-amber-900');
+                    fb.innerHTML = `<i class="fa-solid fa-circle-exclamation"></i> لم تُجب بعد! الصحيح: <span class="en-text font-black">${item.answer}</span>`;
+                } else {
+                    card.classList.add('border-rose-500', 'bg-rose-50/40', 'shake');
+                    fb.classList.add('bg-rose-100', 'text-rose-800');
+                    fb.innerHTML = `<i class="fa-solid fa-circle-xmark"></i> الصحيح: <span class="en-text font-black">${item.answer}</span> (${item.arMeaning})`;
+                }
+            });
+
+            const secFb = document.getElementById('q1-section-feedback');
+            if (secFb) {
+                secFb.classList.remove('hidden', 'bg-emerald-100', 'text-emerald-800', 'border-emerald-300', 'bg-amber-100', 'text-amber-900', 'border-amber-300');
+                if (score === q1Data.length) {
+                    secFb.classList.add('bg-emerald-100', 'text-emerald-800', 'border', 'border-emerald-300');
+                    secFb.textContent = `ممتاز جداً! حصلت على العلامة الكاملة في السؤال الأول (${score}/${q1Data.length}).`;
+                    if (!silent) speakText('Awesome! All eight words in question one are correct!');
+                } else {
+                    secFb.classList.add('bg-amber-100', 'text-amber-900', 'border', 'border-amber-300');
+                    secFb.textContent = `درجتك في السؤال الأول: ${score} من ${q1Data.length}. راجع التغذية الراجعة أسفل كل صورة!`;
+                    if (!silent) speakText(`You got ${score} out of 8 in question one. Check the feedback and try again!`);
+                }
+            }
+            return score;
+        }
+
+        function checkSection2(silent = false) {
+            let score = 0;
+            q2Data.forEach(row => {
+                const chosen = quizState.q2[row.id];
+                const fb = document.getElementById(`q2-fb-${row.id}`);
+                if (!fb) return;
+
+                row.words.forEach(w => {
+                    const btn = document.getElementById(`q2-btn-${row.id}-${w}`);
+                    if (!btn) return;
+                    btn.classList.remove('odd-word-correct', 'odd-word-wrong');
+                    if (w === row.answer && chosen) {
+                        btn.classList.add('odd-word-correct');
+                    }
+                    if (w === chosen && chosen !== row.answer) {
+                        btn.classList.add('odd-word-wrong');
+                    }
+                });
+
+                fb.classList.remove('hidden', 'bg-emerald-100', 'text-emerald-800', 'bg-rose-100', 'text-rose-800', 'bg-amber-100', 'text-amber-900');
+                if (chosen === row.answer) {
+                    score++;
+                    fb.classList.add('bg-emerald-100', 'text-emerald-800');
+                    fb.innerHTML = `<i class="fa-solid fa-circle-check"></i> إجابة صحيحة! ${row.reasonAr}`;
+                } else if (!chosen) {
+                    fb.classList.add('bg-amber-100', 'text-amber-900');
+                    fb.innerHTML = `<i class="fa-solid fa-circle-exclamation"></i> لم تختر كلمة بعد. الإجابة الصحيحة: <span class="en-text font-black">${row.answer}</span> — ${row.reasonAr}`;
+                } else {
+                    fb.classList.add('bg-rose-100', 'text-rose-800');
+                    fb.innerHTML = `<i class="fa-solid fa-circle-xmark"></i> حاول الانتباه: الكلمة المختلفة هي <span class="en-text font-black">${row.answer}</span> — ${row.reasonAr}`;
+                }
+            });
+
+            const secFb = document.getElementById('q2-section-feedback');
+            if (secFb) {
+                secFb.classList.remove('hidden', 'bg-emerald-100', 'text-emerald-800', 'border-emerald-300', 'bg-amber-100', 'text-amber-900', 'border-amber-300');
+                if (score === q2Data.length) {
+                    secFb.classList.add('bg-emerald-100', 'text-emerald-800', 'border', 'border-emerald-300');
+                    secFb.textContent = `رائع! العلامة الكاملة في السؤال الثاني (${score}/${q2Data.length}).`;
+                    if (!silent) speakText('Great job! All four answers in question two are correct!');
+                } else {
+                    secFb.classList.add('bg-amber-100', 'text-amber-900', 'border', 'border-amber-300');
+                    secFb.textContent = `درجتك في السؤال الثاني: ${score} من ${q2Data.length}. راجع التفسير أسفل كل سطر!`;
+                    if (!silent) speakText(`You got ${score} out of 4 in question two.`);
+                }
+            }
+            return score;
+        }
+
+        function checkSection3(silent = false) {
+            let score = 0;
+            q3Data.forEach(item => {
+                const chosenKey = quizState.q3[item.id];
+                const fb = document.getElementById(`q3-fb-${item.id}`);
+                const correctOpt = item.options.find(o => o.key === item.answer);
+                if (!fb) return;
+
+                item.options.forEach(o => {
+                    const btn = document.getElementById(`q3-opt-${item.id}-${o.key}`);
+                    if (!btn) return;
+                    btn.classList.remove('border-emerald-500', 'bg-emerald-50', 'border-rose-500', 'bg-rose-50');
+                    if (o.key === item.answer && chosenKey) {
+                        btn.classList.add('border-emerald-500', 'bg-emerald-50');
+                    }
+                    if (o.key === chosenKey && chosenKey !== item.answer) {
+                        btn.classList.add('border-rose-500', 'bg-rose-50');
+                    }
+                });
+
+                fb.classList.remove('hidden', 'bg-emerald-100', 'text-emerald-800', 'bg-rose-100', 'text-rose-800', 'bg-amber-100', 'text-amber-900');
+                if (chosenKey === item.answer) {
+                    score++;
+                    fb.classList.add('bg-emerald-100', 'text-emerald-800');
+                    fb.innerHTML = `<i class="fa-solid fa-circle-check"></i> إجابة ممتازة! ${item.reasonAr}`;
+                } else if (!chosenKey) {
+                    fb.classList.add('bg-amber-100', 'text-amber-900');
+                    fb.innerHTML = `<i class="fa-solid fa-circle-exclamation"></i> لم تختر إجابة بعد. الصحيح: (${item.answer}) <span class="en-text font-black">${correctOpt ? correctOpt.text : ''}</span>`;
+                } else {
+                    fb.classList.add('bg-rose-100', 'text-rose-800');
+                    fb.innerHTML = `<i class="fa-solid fa-circle-xmark"></i> الصحيح هو (${item.answer}) <span class="en-text font-black">${correctOpt ? correctOpt.text : ''}</span> — ${item.reasonAr}`;
+                }
+            });
+
+            const secFb = document.getElementById('q3-section-feedback');
+            if (secFb) {
+                secFb.classList.remove('hidden', 'bg-emerald-100', 'text-emerald-800', 'border-emerald-300', 'bg-amber-100', 'text-amber-900', 'border-amber-300');
+                if (score === q3Data.length) {
+                    secFb.classList.add('bg-emerald-100', 'text-emerald-800', 'border', 'border-emerald-300');
+                    secFb.textContent = `مذهل! العلامة الكاملة في السؤال الثالث (${score}/${q3Data.length}).`;
+                    if (!silent) speakText('Fantastic! All four meanings in question three are correct!');
+                } else {
+                    secFb.classList.add('bg-amber-100', 'text-amber-900', 'border', 'border-amber-300');
+                    secFb.textContent = `درجتك في السؤال الثالث: ${score} من ${q3Data.length}. راجع المعاني الصحيحة أعلاه!`;
+                    if (!silent) speakText(`You got ${score} out of 4 in question three.`);
+                }
+            }
+            return score;
+        }
+
+        function submitFullQuiz() {
+            const s1 = checkSection1(true);
+            const s2 = checkSection2(true);
+            const s3 = checkSection3(true);
+            const totalScore = s1 + s2 + s3;
+            const totalPossible = q1Data.length + q2Data.length + q3Data.length;
+            const pct = Math.round((totalScore / totalPossible) * 100);
+            const completion = getCompletionStats();
+
+            const heroBadge = document.getElementById('hero-score-badge');
+            if (heroBadge) heroBadge.textContent = `${totalScore} / ${totalPossible}`;
+
+            const reportCard = document.getElementById('final-report-card');
+            if (reportCard) {
+                reportCard.classList.remove('hidden');
+                reportCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+
+            // تحديث دائرة النسبة المئوية
+            const ring = document.getElementById('score-ring-circle');
+            const pctText = document.getElementById('final-pct-text');
+            if (ring) {
+                const offset = 314 - Math.round((314 * pct) / 100);
+                ring.style.strokeDashoffset = offset;
+                ring.style.stroke = pct >= 85 ? '#10b981' : pct >= 60 ? '#f59e0b' : '#f43f5e';
+            }
+            if (pctText) pctText.textContent = `${pct}%`;
+
+            // التقدير والترحيب باسم الطالب
+            const studentName = (document.getElementById('student-name-input')?.value || '').trim();
+            const greetingEl = document.getElementById('final-student-greeting');
+            const ratingEl = document.getElementById('final-rating-badge');
+            const summaryEl = document.getElementById('final-summary-msg');
+
+            let ratingText = 'يحتاج مزيداً من المراجعة';
+            let ratingClasses = 'bg-rose-100 text-rose-800 border-rose-300';
+            let voiceMsg = `Good try! You scored ${totalScore} out of ${totalPossible}. Keep practicing!`;
+
+            if (pct >= 90) {
+                ratingText = 'تقدير: ممتاز متفوق 🌟';
+                ratingClasses = 'bg-emerald-100 text-emerald-800 border-emerald-300';
+                voiceMsg = `Congratulations! Excellent work! You scored ${totalScore} out of ${totalPossible}.`;
+                launchConfetti();
+            } else if (pct >= 75) {
+                ratingText = 'تقدير: جيد جداً 👏';
+                ratingClasses = 'bg-teal-100 text-teal-800 border-teal-300';
+                voiceMsg = `Very good job! You scored ${totalScore} out of ${totalPossible}.`;
+                launchConfetti();
+            } else if (pct >= 50) {
+                ratingText = 'تقدير: جيد 👍';
+                ratingClasses = 'bg-amber-100 text-amber-900 border-amber-300';
+            }
+
+            if (ratingEl) {
+                ratingEl.className = `inline-block px-3.5 py-1 rounded-full text-xs font-black border ${ratingClasses}`;
+                ratingEl.textContent = ratingText;
+            }
+            if (greetingEl) {
+                greetingEl.textContent = studentName ? `أحسنت يا ${studentName}!` : 'نتيجتك في الاختبار الإلكتروني:';
+            }
+            if (summaryEl) {
+                summaryEl.textContent = `حصلت على ${totalScore} من ${totalPossible} (${pct}%)، وبنسبة إنجاز ${completion.pct}% (${completion.totalDone} من ${completion.totalItems} فقرة). يمكنك مراجعة التغذية الراجعة التفصيلية لكل فقرة بالأسفل.`;
+            }
+
+            const r1 = document.getElementById('report-q1-score');
+            const r2 = document.getElementById('report-q2-score');
+            const r3 = document.getElementById('report-q3-score');
+            const rc = document.getElementById('report-completion-pct');
+            if (r1) r1.textContent = `${s1}/${q1Data.length}`;
+            if (r2) r2.textContent = `${s2}/${q2Data.length}`;
+            if (r3) r3.textContent = `${s3}/${q3Data.length}`;
+            if (rc) rc.textContent = `${completion.pct}%`;
+
+            // بناء قائمة التغذية الراجعة التفصيلية لجميع الفقرات الـ 16
+            const listEl = document.getElementById('detailed-feedback-list');
+            if (listEl) {
+                const itemsHtml = [];
+
+                q1Data.forEach(item => {
+                    const u = (quizState.q1[item.id] || '').trim().toLowerCase();
+                    const ok = u === item.answer;
+                    itemsHtml.push(`
+                        <div class="p-2.5 rounded-xl border ${ok ? 'bg-emerald-50 border-emerald-200 text-emerald-900' : 'bg-rose-50 border-rose-200 text-rose-900'} flex items-center justify-between gap-2">
+                            <span>${ok ? '✅' : '❌'} س1 (${item.id}): <span class="en-text font-black">${item.answer}</span> (${item.arMeaning})</span>
+                            <span class="en-text text-[11px] opacity-80">${u || '—'}</span>
+                        </div>
+                    `);
+                });
+
+                q2Data.forEach(row => {
+                    const u = quizState.q2[row.id] || '';
+                    const ok = u === row.answer;
+                    itemsHtml.push(`
+                        <div class="p-2.5 rounded-xl border ${ok ? 'bg-emerald-50 border-emerald-200 text-emerald-900' : 'bg-rose-50 border-rose-200 text-rose-900'} flex items-center justify-between gap-2">
+                            <span>${ok ? '✅' : '❌'} س2 (${row.id}): المختلف <span class="en-text font-black">${row.answer}</span></span>
+                            <span class="en-text text-[11px] opacity-80">${u || '—'}</span>
+                        </div>
+                    `);
+                });
+
+                q3Data.forEach(item => {
+                    const u = quizState.q3[item.id] || '';
+                    const ok = u === item.answer;
+                    const correctOpt = item.options.find(o => o.key === item.answer);
+                    itemsHtml.push(`
+                        <div class="p-2.5 rounded-xl border ${ok ? 'bg-emerald-50 border-emerald-200 text-emerald-900' : 'bg-rose-50 border-rose-200 text-rose-900'} flex items-center justify-between gap-2">
+                            <span>${ok ? '✅' : '❌'} س3 (${item.id}): <span class="en-text font-black">${item.word} = ${correctOpt ? correctOpt.text : ''}</span></span>
+                            <span class="en-text text-[11px] opacity-80">${u || '—'}</span>
+                        </div>
+                    `);
+                });
+
+                listEl.innerHTML = itemsHtml.join('');
+            }
+
+            showToast(`تم التصحيح! درجتك ${totalScore}/${totalPossible} (${pct}%)`);
+            speakText(voiceMsg);
+        }
+
+        function showAllModelAnswers() {
+            q1Data.forEach(item => {
+                const input = document.getElementById(`q1-input-${item.id}`);
+                if (input) input.value = item.answer;
+                quizState.q1[item.id] = item.answer;
+                syncQ1TilesWithText(item.id, item.answer);
+            });
+            q2Data.forEach(row => {
+                quizState.q2[row.id] = row.answer;
+                row.words.forEach(w => {
+                    const btn = document.getElementById(`q2-btn-${row.id}-${w}`);
+                    if (!btn) return;
+                    btn.classList.remove('odd-word-selected', 'odd-word-correct', 'odd-word-wrong');
+                    if (w === row.answer) btn.classList.add('odd-word-correct');
+                });
+            });
+            q3Data.forEach(item => {
+                quizState.q3[item.id] = item.answer;
+                const correctOpt = item.options.find(o => o.key === item.answer);
+                const blank = document.getElementById(`q3-blank-${item.id}`);
+                if (blank && correctOpt) blank.textContent = correctOpt.text;
+                item.options.forEach(o => {
+                    const btn = document.getElementById(`q3-opt-${item.id}-${o.key}`);
+                    if (!btn) return;
+                    btn.classList.remove('border-amber-500', 'bg-amber-50', 'ring-2', 'ring-amber-300', 'border-emerald-500', 'bg-emerald-50', 'border-rose-500', 'bg-rose-50');
+                    if (o.key === item.answer) btn.classList.add('border-emerald-500', 'bg-emerald-50');
+                });
+            });
+
+            updateProgressUI();
+            checkSection1(true);
+            checkSection2(true);
+            checkSection3(true);
+            showToast('تم عرض جميع الإجابات النموذجية بنجاح!');
+            speakText('Here are all the model answers.');
+        }
+
+        function resetEntireQuiz() {
+            stopAudio();
+            quizState.q1 = {};
+            quizState.q2 = {};
+            quizState.q3 = {};
+
+            renderQuestion1();
+            renderQuestion2();
+            renderQuestion3();
+
+            ['q1-section-feedback', 'q2-section-feedback', 'q3-section-feedback', 'final-report-card'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.classList.add('hidden');
+            });
+
+            const heroBadge = document.getElementById('hero-score-badge');
+            if (heroBadge) heroBadge.textContent = '-- / 16';
+
+            updateProgressUI();
+            showToast('تمت إعادة الاختبار! يمكنك البدء من جديد الآن.');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function launchConfetti() {
+            const colors = ['#f59e0b', '#10b981', '#0ea5e9', '#f43f5e', '#a855f7', '#eab308'];
+            for (let i = 0; i < 42; i++) {
+                const piece = document.createElement('div');
+                piece.className = 'confetti-piece rounded-sm';
+                piece.style.left = `${Math.random() * 100}vw`;
+                piece.style.width = `${7 + Math.random() * 7}px`;
+                piece.style.height = `${10 + Math.random() * 8}px`;
+                piece.style.backgroundColor = colors[i % colors.length];
+                piece.style.animationDuration = `${2.2 + Math.random() * 2}s`;
+                piece.style.animationDelay = `${Math.random() * 0.5}s`;
+                document.body.appendChild(piece);
+                setTimeout(() => piece.remove(), 4800);
+            }
+        }
+
+        // ==========================================
+        // 6. نظام الصوت التعليمي الهادئ للمعلمة والمعلم
+        // ==========================================
+        let preferMaleTeacher = false;
+        let isSlowTrainingMode = false;
+        let isSequencePlaying = false;
+        let activeTimeouts = [];
+        let speechSessionCounter = 0;
+
+        function getCurrentSpeechRate() {
+            return isSlowTrainingMode ? 0.65 : 0.76;
+        }
+
+        function showLiveReadingToast(txt) {
+            const toast = document.getElementById('liveReadingToast');
+            const wordEl = document.getElementById('toastWord');
+            const rateEl = document.getElementById('toastRateLabel');
+            if (rateEl) rateEl.innerText = `Calm Educational Voice (${getCurrentSpeechRate()}x):`;
+            if (wordEl) wordEl.innerText = txt;
+            if (toast) {
+                toast.classList.remove('opacity-0', 'translate-y-8');
+                toast.classList.add('opacity-100', 'translate-y-0');
+            }
+        }
+
+        function hideLiveReadingToast() {
+            const toast = document.getElementById('liveReadingToast');
+            if (toast) {
+                toast.classList.add('opacity-0', 'translate-y-8');
+                toast.classList.remove('opacity-100', 'translate-y-0');
+            }
+        }
+
+        function toggleSpeechSpeed() {
+            isSlowTrainingMode = !isSlowTrainingMode;
+            const speedLabel = document.getElementById('speed-label');
+            if (speedLabel) {
+                speedLabel.textContent = isSlowTrainingMode ? 'بطيء جداً (0.65x)' : 'هادئ (0.76x)';
+            }
+            showToast(isSlowTrainingMode ? 'تم تفعيل النطق البطيء جداً للتدريب!' : 'تم تفعيل الصوت التعليمي الهادئ (0.76x)!');
+        }
+
+        function changeTeacherVoice(voiceMode) {
+            preferMaleTeacher = (voiceMode === 'calm-male');
+            stopAudio();
+            speakText('Hello! Good luck with your English vocabulary quiz.');
+            showToast(preferMaleTeacher ? 'تم تفعيل صوت المعلم الهادئ' : 'تم تفعيل صوت المعلمة الهادئة');
+        }
+
+        function findCalmEducationalVoice(voicesList, preferMale = false) {
+            if (!voicesList || voicesList.length === 0) return null;
+            const enVoices = voicesList.filter(v => v.lang && v.lang.toLowerCase().startsWith('en'));
+            const pool = enVoices.length > 0 ? enVoices : voicesList;
+
+            const femalePriority = [
+                'emma online (natural)',
+                'ava online (natural)',
+                'jenny online (natural)',
+                'aria online (natural)',
+                'michelle online (natural)',
+                'ana online (natural)',
+                'clara online (natural)',
+                'sonia online (natural)',
+                'google uk english female',
+                'google us english',
+                'samantha',
+                'karen',
+                'moira',
+                'tessa'
+            ];
+
+            const malePriority = [
+                'william multilingual',
+                'william online (natural)',
+                'andrew online (natural)',
+                'liam online (natural)',
+                'ryan online (natural)',
+                'daniel',
+                'david',
+                'mark'
+            ];
+
+            const listToCheck = preferMale ? [...malePriority, ...femalePriority] : [...femalePriority, ...malePriority];
+            for (const key of listToCheck) {
+                const match = pool.find(v => v.name.toLowerCase().includes(key));
+                if (match) return match;
+            }
+            return pool[0] || null;
+        }
+
+        function setSpeakingUI(isSpeaking) {
+            const pulse = document.getElementById('teacher-pulse');
+            const stopBtn = document.getElementById('stop-audio-btn');
+            if (isSpeaking) {
+                if (pulse) pulse.classList.remove('hidden');
+                if (stopBtn) stopBtn.classList.remove('hidden');
+            } else {
+                if (pulse) pulse.classList.add('hidden');
+                if (stopBtn) stopBtn.classList.add('hidden');
+            }
+        }
+
+        function clearHighlights() {
+            document.querySelectorAll('.active-reading-box').forEach(el => el.classList.remove('active-reading-box'));
+            document.querySelectorAll('.active-reading-text').forEach(el => el.classList.remove('active-reading-text'));
+        }
+
+        function highlightCardById(cardId) {
+            clearHighlights();
+            if (!cardId) return;
+            const el = document.getElementById(cardId);
+            if (!el) return;
+            el.classList.add('active-reading-box');
+            const innerText = el.querySelector('.sentence-text');
+            if (innerText) innerText.classList.add('active-reading-text');
+            el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        function stopAudio() {
+            isSequencePlaying = false;
+            speechSessionCounter++;
+            activeTimeouts.forEach(t => {
+                clearTimeout(t);
+                clearInterval(t);
+            });
+            activeTimeouts = [];
+
+            if ('speechSynthesis' in window) {
+                try {
+                    window.speechSynthesis.cancel();
+                } catch (e) {}
+            }
+            clearHighlights();
+            hideLiveReadingToast();
+            setSpeakingUI(false);
+        }
+
+        function speakText(text, btnElement = null, keepSequenceState = false, highlightCardId = null) {
+            return new Promise((resolve) => {
+                try {
+                    if (!keepSequenceState) {
+                        stopAudio();
+                    }
+
+                    const mySession = speechSessionCounter;
+                    const rate = getCurrentSpeechRate();
+                    const pitch = preferMaleTeacher ? 0.94 : 1.04;
+
+                    if (highlightCardId) {
+                        highlightCardById(highlightCardId);
+                    }
+                    showLiveReadingToast(text);
+                    setSpeakingUI(true);
+
+                    let finished = false;
+                    let safetyTimer = null;
+                    const finishOnce = () => {
+                        if (finished) return;
+                        finished = true;
+                        if (safetyTimer) clearTimeout(safetyTimer);
+                        if (!keepSequenceState && mySession === speechSessionCounter) {
+                            clearHighlights();
+                            hideLiveReadingToast();
+                            setSpeakingUI(false);
+                        }
+                        resolve();
+                    };
+
+                    const words = text.trim().split(/\s+/).filter(Boolean).length;
+                    const safetyMs = Math.max(2200, Math.round((words / rate) * 750) + 1800);
+                    safetyTimer = setTimeout(finishOnce, safetyMs);
+                    activeTimeouts.push(safetyTimer);
+
+                    if (!('speechSynthesis' in window)) {
+                        return;
+                    }
+
+                    const startTimer = setTimeout(() => {
+                        if (mySession !== speechSessionCounter || finished) return;
+                        try {
+                            const voices = window.speechSynthesis.getVoices();
+                            const chosenVoice = findCalmEducationalVoice(voices, preferMaleTeacher);
+
+                            const utterance = new SpeechSynthesisUtterance(text);
+                            window.activeUtteranceRef = utterance;
+                            if (chosenVoice) {
+                                utterance.voice = chosenVoice;
+                                utterance.lang = chosenVoice.lang || 'en-US';
+                            } else {
+                                utterance.lang = 'en-US';
+                            }
+                            utterance.rate = rate;
+                            utterance.pitch = pitch;
+                            utterance.volume = 1.0;
+
+                            utterance.onend = finishOnce;
+                            utterance.onerror = (err) => {
+                                if (err && (err.error === 'canceled' || err.error === 'interrupted')) return;
+                                finishOnce();
+                            };
+
+                            window.speechSynthesis.speak(utterance);
+                        } catch (e) {
+                            finishOnce();
+                        }
+                    }, 50);
+                    activeTimeouts.push(startTimer);
+                } catch (err) {
+                    resolve();
+                }
+            });
+        }
+
+        let toastTimer = null;
+        function showToast(message) {
+            const toast = document.getElementById('toast-message');
+            const toastText = document.getElementById('toast-text');
+            if (!toast || !toastText) return;
+
+            toastText.textContent = message;
+            toast.classList.remove('hidden');
+
+            if (toastTimer) clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 3500);
+        }
+
+        window.onload = function () {
+            renderQuestion1();
+            renderQuestion2();
+            renderQuestion3();
+            updateProgressUI();
+
+            if ('speechSynthesis' in window) {
+                try {
+                    window.speechSynthesis.getVoices();
+                    window.speechSynthesis.onvoiceschanged = () => {
+                        window.speechSynthesis.getVoices();
+                    };
+                } catch (e) {}
+            }
+        };
+    </script>
+</body>
+</html>
